@@ -29,10 +29,27 @@ foreach ($sectors as $position => $candidate) {
 
 $related = array_slice($related, 0, 2);
 
-$title = $sector['name'];
-$metaDescription = $sector['short'];
+$title = 'Strategy Consulting in Dubai | White Sea Star';
+$metaDescription = 'White Sea Star is a Dubai-based strategy practice. Market entry, growth, commercial advisory, partnerships and operating models for the UAE, GCC and beyond.';
 $bodyClass = 'page-sector';
 $company = content('company');
+$services = (array) content('services', []);
+$breadcrumbs = [
+    ['name' => 'Our practice', 'path' => '/sectors'],
+    ['name' => 'Strategy consulting', 'path' => '/sectors/strategy'],
+];
+$pageSchema = [
+    [
+        '@type' => 'Service',
+        '@id' => absolute_url('/sectors/strategy') . '#service',
+        'name' => 'Strategy consulting',
+        'serviceType' => 'Strategy consulting',
+        'description' => $sector['short'],
+        'provider' => ['@id' => absolute_url('/') . '#organization'],
+        'areaServed' => ['United Arab Emirates', 'GCC Region', 'Africa', 'South Asia'],
+        'url' => absolute_url('/sectors/strategy'),
+    ],
+];
 
 require includes_path('header.php');
 ?>
@@ -101,24 +118,25 @@ require includes_path('header.php');
     </div>
 </section>
 
-<?php if ($related !== []): ?>
+<?php if ($services !== []): ?>
 <section class="section section--cream">
     <div class="container">
         <div class="section-heading reveal">
             <p class="eyebrow eyebrow--dark">Continue exploring</p>
-            <h2 class="section-title">Other <em>practices.</em></h2>
+            <h2 class="section-title">The five <em>disciplines.</em></h2>
+            <p class="section-intro">Each discipline has its own page, with the questions we answer and the work we deliver.</p>
         </div>
 
-        <div class="related-grid">
-            <?php foreach ($related as $item): ?>
-                <a class="sector-card sector-card--related reveal" href="/sectors/<?= e($item['slug']) ?>">
+        <div class="sector-grid">
+            <?php foreach ($services as $service): ?>
+                <a class="sector-card sector-card--service reveal" href="/expertise/<?= e($service['slug']) ?>">
                     <span class="sector-card__top">
-                        <span class="sector-card__num"><?= e($item['number']) ?></span>
-                        <span class="sector-card__icon"><?= icon($item['icon']) ?></span>
+                        <span class="sector-card__num"><?= e($service['number']) ?></span>
+                        <span class="sector-card__icon"><?= icon($service['icon']) ?></span>
                     </span>
-                    <h3><?= e($item['name']) ?></h3>
-                    <p><?= e($item['short']) ?></p>
-                    <span class="sector-card__link">Discover the practice <?= icon('arrow') ?></span>
+                    <h3><?= e($service['name']) ?></h3>
+                    <p><?= e($service['short']) ?></p>
+                    <span class="sector-card__link">Explore this discipline <?= icon('arrow') ?></span>
                     <span class="sector-card__line" aria-hidden="true"></span>
                 </a>
             <?php endforeach; ?>

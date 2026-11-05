@@ -27,9 +27,9 @@ includes/                Shared code — blocked from the web
   data.php               All database queries
   auth.php               Sign-in, sessions, access guards, throttling
   uploads.php            Private file validation and storage
-  content.php            All public copy, sectors, values and markets
+  content.php            All public copy, services, sectors, values, markets, FAQs
   icons.php              Inline SVG icon set
-  head.php               Shared <head>
+  head.php               Shared <head> + SEO metadata and JSON-LD
   header.php / footer.php            Public layout
   panel-header.php / panel-footer.php Member/admin layout
   auth-header.php / auth-footer.php   Sign-in layout
@@ -38,6 +38,7 @@ includes/                Shared code — blocked from the web
 index.php                Front controller (all requests)
 pages/                   One file per page — blocked from the web
   home.php, about.php, sectors.php, sector.php, contact.php, privacy.php
+  expertise.php, expertise-detail.php
   login.php, logout.php
   member-dashboard.php, member-documents.php, profile.php, download.php
   admin-dashboard.php, admin-members.php, admin-member-form.php,
@@ -166,6 +167,8 @@ There is no public registration. Accounts are created by a super-admin under
 | GET | `/about` | public |
 | GET | `/sectors` | public |
 | GET | `/sectors/{slug}` | public |
+| GET | `/expertise` | public |
+| GET | `/expertise/{slug}` | public |
 | GET/POST | `/contact` | public |
 | GET | `/privacy` | public |
 | GET | `/robots.txt` | public |
@@ -189,7 +192,7 @@ Add or change routes in `router.php`; each entry points at a file in `pages/`.
 
 ## Editing content
 
-- **Public copy, sectors, values, markets:** `includes/content.php`
+- **Public copy, services, sectors, values, markets, FAQs:** `includes/content.php`
 - **Company name, phone, email, address:** the `company` array in
   `includes/content.php`
 - **Colours and layout:** `assets/css/app.css`
@@ -220,6 +223,62 @@ laptop widths:
 Root font scaling is relative, so a visitor's browser font-size preference is
 still respected. Reduced-motion, high-contrast and reduced-transparency
 preferences are also handled.
+
+---
+
+## SEO
+
+The application ships with the technical SEO work already done:
+
+- **One canonical address.** `.htaccess` redirects `http://` and the non-`www`
+  host to `https://www.whiteseastar.com`, and strips trailing slashes.
+- **Unique metadata.** Every public page sets its own title, meta description,
+  canonical URL and Open Graph / Twitter tags.
+- **Structured data.** JSON-LD is emitted on every public page:
+  `Organization` + `ProfessionalService`, `WebSite`, `WebPage`,
+  `BreadcrumbList`, plus `Service`, `FAQPage`, `AboutPage`, `ContactPage` or
+  `CollectionPage` where relevant.
+- **Sitemap.** `/sitemap.xml` lists all public pages and uses real file
+  modification dates. `/robots.txt` points to it and blocks only private areas.
+- **Keyword-focused pages.** The five disciplines each have a dedicated page:
+  `/expertise/market-entry`, `/expertise/growth-strategy`,
+  `/expertise/commercial-advisory`, `/expertise/partnerships` and
+  `/expertise/operating-models`.
+- **Internal linking.** The home page, strategy page, expertise pages and footer
+  link to every discipline.
+- **Performance.** Text compression and long-lived caching for versioned assets
+  are enabled in `.htaccess`; fonts use `display=swap`.
+
+### Google Search Console
+
+Code cannot force Google to index a site. Do these steps once after deployment:
+
+1. Open <https://search.google.com/search-console> and add the **Domain**
+   property `whiteseastar.com` (DNS verification is the most reliable method).
+2. If you prefer the HTML tag method, paste only the token into
+   `includes/config.php`:
+   ```php
+   'seo' => [
+       'google_verification' => 'your-token-here',
+       ...
+   ],
+   ```
+   or set `WSS_GOOGLE_VERIFICATION` in the environment. The same applies to
+   Bing with `WSS_BING_VERIFICATION`.
+3. In **Sitemaps**, submit `https://www.whiteseastar.com/sitemap.xml`.
+4. Use **URL Inspection** on `/`, `/about`, `/sectors` and each
+   `/expertise/...` page, then click **Request indexing**.
+5. Check **Page indexing** after a few days. New sites and new domains can take
+   several weeks to appear even when everything is correct.
+6. Create or claim a **Google Business Profile** for the Dubai office and add
+   the website URL. Local listings are one of the strongest signals for
+   “strategy consultant Dubai” searches.
+7. Earn a few genuine links (LinkedIn company page, trade directories,
+   partner sites). A new domain with no links is slow to rank regardless of
+   on-page SEO.
+
+Do not add `noindex` to public pages. Member/admin pages are intentionally
+`noindex, nofollow`.
 
 ---
 

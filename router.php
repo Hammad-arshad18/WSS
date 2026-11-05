@@ -15,6 +15,8 @@ return [
     ['GET',  '/about', 'about.php', 'public'],
     ['GET',  '/sectors', 'sectors.php', 'public'],
     ['GET',  '/sectors/{slug}', 'sector.php', 'public'],
+    ['GET',  '/expertise', 'expertise.php', 'public'],
+    ['GET',  '/expertise/{slug}', 'expertise-detail.php', 'public'],
     ['GET',  '/contact', 'contact.php', 'public'],
     ['POST', '/contact', 'contact.php', 'public'],
     ['GET',  '/privacy', 'privacy.php', 'public'],

@@ -2,14 +2,25 @@
 
 declare(strict_types=1);
 
-$title = 'About the company';
-$metaDescription = 'Established in Dubai in 2009, White Sea Star General Trading L.L.C is a strategy practice helping partners navigate complex markets with clarity.';
+$title = 'About White Sea Star | Dubai Strategy Practice Since 2009';
+$metaDescription = 'Established in Dubai in 2009, White Sea Star General Trading L.L.C is a strategy practice helping leaders navigate complex markets.';
 $bodyClass = 'page-about';
 $company = content('company');
 $values = (array) content('values', []);
 $advantages = (array) content('advantages', []);
 $stats = (array) content('stats', []);
 $markets = (array) content('markets', []);
+$breadcrumbs = [['name' => 'The company', 'path' => '/about']];
+$pageSchema = [
+    [
+        '@type' => 'AboutPage',
+        '@id' => absolute_url('/about') . '#about',
+        'url' => absolute_url('/about'),
+        'name' => 'About White Sea Star General Trading L.L.C',
+        'description' => $metaDescription,
+        'mainEntity' => ['@id' => absolute_url('/') . '#organization'],
+    ],
+];
 
 require includes_path('header.php');
 ?>

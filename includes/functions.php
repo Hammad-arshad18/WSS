@@ -71,6 +71,19 @@ function url(string $path = '/'): string
     return $base . $path;
 }
 
+/**
+ * Build an absolute URL for canonical, Open Graph and structured-data values.
+ * Search engines require absolute URLs in these places.
+ */
+function absolute_url(string $path = '/'): string
+{
+    if (preg_match('#^https?://#i', $path)) {
+        return $path;
+    }
+
+    return rtrim((string) config('app.url', ''), '/') . url($path);
+}
+
 function asset(string $path): string
 {
     $path = ltrim($path, '/');

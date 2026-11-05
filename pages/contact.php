@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-$sectors = (array) content('sectors', []);
+$services = (array) content('services', []);
 $subjects = ['General enquiry'];
 
-foreach ($sectors as $sector) {
-    $subjects[] = $sector['name'];
+foreach ($services as $service) {
+    $subjects[] = $service['name'];
 }
 
 $subjects[] = 'Partnership';
@@ -71,9 +71,21 @@ if (!in_array($selected, $subjects, true)) {
     $selected = 'General enquiry';
 }
 
-$title = 'Contact us';
-$metaDescription = 'Speak with White Sea Star General Trading L.L.C in Dubai about strategy, market entry and partnership opportunities.';
+$title = 'Contact Our Dubai Strategy Team | White Sea Star';
+$metaDescription = 'Contact White Sea Star in Deira, Dubai. Speak with our strategy team about market entry, growth, partnerships or a potential engagement.';
 $bodyClass = 'page-contact';
+$breadcrumbs = [['name' => 'Contact', 'path' => '/contact']];
+$pageSchema = [
+    [
+        '@type' => 'ContactPage',
+        '@id' => absolute_url('/contact') . '#contact',
+        'url' => absolute_url('/contact'),
+        'name' => 'Contact White Sea Star',
+        'description' => $metaDescription,
+        'about' => ['@id' => absolute_url('/') . '#organization'],
+        'mainEntity' => ['@id' => absolute_url('/') . '#organization'],
+    ],
+];
 $company = content('company');
 $selectedSubject = $selected;
 

@@ -6,6 +6,20 @@ DirectoryIndex index.php
     RewriteEngine On
     RewriteBase /
 
+    # One canonical address: https://www.whiteseastar.com
+    RewriteCond %{HTTP_HOST} ^whiteseastar\.com$ [NC]
+    RewriteRule ^ https://www.whiteseastar.com%{REQUEST_URI} [R=301,L]
+
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+    RewriteCond %{HTTP_HOST} (^|\.)whiteseastar\.com$ [NC]
+    RewriteRule ^ https://www.whiteseastar.com%{REQUEST_URI} [R=301,L]
+
+    # Remove trailing slashes from real pages (not directories or files).
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.+)/$ /$1 [R=301,L]
+
     # Never expose application code or private storage.
     RewriteRule ^(includes|pages|storage)(/|$) - [F,L]
 
@@ -34,4 +48,26 @@ DirectoryIndex index.php
 
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"
+    Header append Vary Accept-Encoding
+</IfModule>
+
+# Compress text responses to improve loading speed and Core Web Vitals.
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Versioned assets can be cached aggressively.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>

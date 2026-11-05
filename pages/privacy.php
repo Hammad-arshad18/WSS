@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-$title = 'Privacy notice';
-$metaDescription = 'How White Sea Star General Trading L.L.C handles information shared through this website.';
+$title = 'Privacy Notice | White Sea Star';
+$metaDescription = 'How White Sea Star General Trading L.L.C collects, uses and protects information shared through this website.';
 $bodyClass = 'page-privacy';
 $company = content('company');
+$breadcrumbs = [['name' => 'Privacy notice', 'path' => '/privacy']];
 
 require includes_path('header.php');
 ?>

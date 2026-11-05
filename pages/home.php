@@ -2,15 +2,33 @@
 
 declare(strict_types=1);
 
-$title = 'White Sea Star General Trading L.L.C — Dubai';
-$metaDescription = 'White Sea Star General Trading L.L.C is a Dubai-based strategy practice established in 2009, helping partners with market entry, growth and execution.';
+$title = 'Dubai Strategy & Advisory | White Sea Star';
+$metaDescription = 'White Sea Star is a Dubai-based strategy practice established in 2009. Market entry, growth strategy, commercial advisory, partnerships and operating models.';
 $bodyClass = 'page-home';
-$sectors = (array) content('sectors', []);
 $services = (array) content('services', []);
 $values = (array) content('values', []);
 $stats = (array) content('stats', []);
 $markets = (array) content('markets', []);
 $advantages = (array) content('advantages', []);
+$pageType = 'website';
+$itemListItems = [];
+
+foreach ($services as $position => $service) {
+    $itemListItems[] = [
+        '@type' => 'ListItem',
+        'position' => $position + 1,
+        'name' => $service['name'],
+        'url' => absolute_url('/expertise/' . $service['slug']),
+    ];
+}
+
+$pageSchema = [
+    [
+        '@type' => 'ItemList',
+        'name' => 'Strategy disciplines',
+        'itemListElement' => $itemListItems,
+    ],
+];
 
 require includes_path('header.php');
 ?>
@@ -129,16 +147,16 @@ require includes_path('header.php');
 
         <div class="sector-grid">
             <?php foreach ($services as $index => $service): ?>
-                <article class="sector-card sector-card--service reveal">
+                <a class="sector-card sector-card--service reveal" href="/expertise/<?= e($service['slug']) ?>">
                     <span class="sector-card__top">
                         <span class="sector-card__num"><?= str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) ?></span>
                         <span class="sector-card__icon"><?= icon($service['icon']) ?></span>
                     </span>
                     <h3><?= e($service['name']) ?></h3>
                     <p><?= e($service['short']) ?></p>
-                    <span class="sector-card__link">Strategy discipline</span>
+                    <span class="sector-card__link">Explore this discipline <?= icon('arrow') ?></span>
                     <span class="sector-card__line" aria-hidden="true"></span>
-                </article>
+                </a>
             <?php endforeach; ?>
 
             <a class="sector-card sector-card--service sector-card--cta reveal" href="/contact">

@@ -1,7 +1,6 @@
 <?php
 $company = content('company');
 $services = (array) content('services', []);
-$sectors = (array) content('sectors', []);
 ?>
 </main>
 
@@ -53,9 +52,9 @@ $sectors = (array) content('sectors', []);
                 <h3>Expertise</h3>
                 <ul>
                     <?php foreach ($services as $service): ?>
-                        <li><a href="/sectors"><?= e($service['name']) ?></a></li>
+                        <li><a href="/expertise/<?= e($service['slug']) ?>"><?= e($service['name']) ?></a></li>
                     <?php endforeach; ?>
-                    <li><a class="footer__more" href="/sectors">Our approach <?= icon('arrow') ?></a></li>
+                    <li><a class="footer__more" href="/expertise">All expertise <?= icon('arrow') ?></a></li>
                 </ul>
             </div>
 
@@ -84,30 +83,6 @@ $sectors = (array) content('sectors', []);
 </footer>
 
 <script src="<?= e(asset('js/app.js')) ?>" defer></script>
-
-<?php if (!$noindex): ?>
-<script type="application/ld+json" nonce="<?= e($nonce) ?>"><?= json_for_script([
-    '@context' => 'https://schema.org',
-    '@type' => 'Organization',
-    'name' => $company['name'],
-    'alternateName' => 'White Sea Star',
-    'url' => url('/'),
-    'logo' => url('/assets/img/logo.png'),
-    'foundingDate' => '2009-06-16',
-    'email' => $company['email'],
-    'telephone' => $company['phone'],
-    'address' => [
-        '@type' => 'PostalAddress',
-        'streetAddress' => 'Al Reem Tower, Office 1404, Al Maktoum Road, Riggat Al Buteen, Deira',
-        'addressLocality' => 'Dubai',
-        'addressCountry' => 'AE',
-    ],
-    'knowsAbout' => array_merge(
-        array_map(static fn (array $sector): string => $sector['name'], $sectors),
-        array_map(static fn (array $service): string => $service['name'], $services)
-    ),
-]) ?></script>
-<?php endif; ?>
 </body>
 </html>
 <?php clear_form_state(); ?>

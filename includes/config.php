@@ -23,7 +23,7 @@ return [
         'url' => $appUrl,
         'base_path' => rtrim($env('WSS_BASE_PATH', ''), '/'),
         'timezone' => 'Asia/Dubai',
-        'asset_version' => $env('WSS_ASSET_VERSION', '1.2.0'),
+        'asset_version' => $env('WSS_ASSET_VERSION', '1.3.0'),
         'debug' => filter_var($env('WSS_DEBUG', 'false'), FILTER_VALIDATE_BOOLEAN),
         'trust_proxy' => filter_var($env('WSS_TRUST_PROXY', 'false'), FILTER_VALIDATE_BOOLEAN),
     ],
@@ -35,6 +35,12 @@ return [
         'username' => $env('WSS_DB_USER', 'whiteseastar_comwsssite'),
         'password' => $env('WSS_DB_PASS', 'Developer18'),
         'charset' => 'utf8mb4',
+    ],
+
+    'seo' => [
+        'google_verification' => $env('WSS_GOOGLE_VERIFICATION', ''),
+        'bing_verification' => $env('WSS_BING_VERIFICATION', ''),
+        'default_image' => '/assets/img/og.jpg',
     ],
 
     'security' => [
