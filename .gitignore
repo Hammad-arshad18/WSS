@@ -1,0 +1,10 @@
+.DS_Store
+.env
+*.log
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/logs/*
+!storage/logs/.gitkeep
+_legacy/
+_legacy/
+_legacy/
