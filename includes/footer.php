@@ -9,7 +9,7 @@ $services = (array) content('services', []);
 <section class="pre-footer">
     <div class="container pre-footer__inner">
         <div class="pre-footer__seal" aria-hidden="true">
-            <img src="<?= e(asset('img/mark.png')) ?>" alt="" width="64" height="66" loading="lazy" decoding="async">
+            <img src="<?= e(asset('img/mark.png')) ?>" alt="" width="58" height="53" loading="lazy" decoding="async">
         </div>
         <div class="pre-footer__copy">
             <p class="eyebrow eyebrow--dark">A conversation, not a transaction</p>
@@ -27,11 +27,7 @@ $services = (array) content('services', []);
         <div class="footer__grid">
             <div class="footer__brand">
                 <a class="footer__logo" href="/" aria-label="White Sea Star General Trading L.L.C — home">
-                    <img src="<?= e(asset('img/mark-light.png')) ?>" alt="" width="66" height="68" loading="lazy" decoding="async">
-                    <span>
-                        <strong>White Sea Star</strong>
-                        <small>General Trading L.L.C</small>
-                    </span>
+                    <img src="<?= e(asset('img/wss-light.png')) ?>" alt="" width="198" height="84" decoding="async">
                 </a>
                 <p class="footer__blurb">A Dubai-based sourcing and supply partner connecting clients with manufacturers and suppliers since 2009.</p>
                 <p class="footer__est">Established 16 June 2009</p>

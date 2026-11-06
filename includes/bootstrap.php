@@ -18,6 +18,7 @@ require __DIR__ . '/functions.php';
 require __DIR__ . '/icons.php';
 
 $GLOBALS['wss_config'] = require __DIR__ . '/config.php';
+enforce_canonical_host();
 $GLOBALS['wss_content'] = require __DIR__ . '/content.php';
 
 require __DIR__ . '/db.php';

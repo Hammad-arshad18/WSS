@@ -7,7 +7,7 @@ DirectoryIndex index.php
     RewriteBase /
 
     # One canonical address: https://www.whiteseastar.com
-    RewriteCond %{HTTP_HOST} ^whiteseastar\.com$ [NC]
+    RewriteCond %{HTTP_HOST} ^whiteseastar\.com(?::\d+)?$ [NC]
     RewriteRule ^ https://www.whiteseastar.com%{REQUEST_URI} [R=301,L]
 
     RewriteCond %{HTTPS} !=on
@@ -46,6 +46,8 @@ DirectoryIndex index.php
     </IfModule>
 </FilesMatch>
 
+AddType application/manifest+json .webmanifest
+
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"
     Header append Vary Accept-Encoding
@@ -56,6 +58,7 @@ DirectoryIndex index.php
     AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
     AddOutputFilterByType DEFLATE application/xml application/xhtml+xml application/rss+xml
     AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
+    AddOutputFilterByType DEFLATE application/manifest+json
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
@@ -69,5 +72,6 @@ DirectoryIndex index.php
     ExpiresByType image/x-icon "access plus 1 year"
     ExpiresByType text/css "access plus 1 year"
     ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType application/manifest+json "access plus 1 week"
     ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
