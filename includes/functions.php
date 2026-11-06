@@ -119,6 +119,58 @@ function absolute_url(string $path = '/'): string
     return rtrim((string) config('app.url', ''), '/') . url($path);
 }
 
+/**
+ * Send the bare production host to the configured canonical host.
+ *
+ * https://whiteseastar.com and https://www.whiteseastar.com both reach this
+ * app. Canonical, Open Graph and sitemap URLs use the www host, so the apex
+ * host must 301 there before any HTML is sent. Local and preview hosts are
+ * left alone.
+ */
+function enforce_canonical_host(): void
+{
+    if (PHP_SAPI === 'cli' || headers_sent()) {
+        return;
+    }
+
+    $method = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
+
+    if ($method !== 'GET' && $method !== 'HEAD') {
+        return;
+    }
+
+    $canonical = rtrim((string) config('app.url', ''), '/');
+    $canonicalHost = parse_url($canonical, PHP_URL_HOST);
+
+    if (!is_string($canonicalHost) || $canonicalHost === '') {
+        return;
+    }
+
+    $requestHost = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
+    $requestHost = preg_replace('/:\d+$/', '', $requestHost) ?? $requestHost;
+
+    if ($requestHost === '' || strcasecmp($requestHost, $canonicalHost) === 0) {
+        return;
+    }
+
+    $bareHost = strtolower((string) preg_replace('/^www\./i', '', $canonicalHost));
+
+    if ($requestHost !== $bareHost) {
+        return;
+    }
+
+    $uri = (string) ($_SERVER['REQUEST_URI'] ?? '/');
+    $path = parse_url($uri, PHP_URL_PATH);
+    $path = is_string($path) && str_starts_with($path, '/') && !str_starts_with($path, '//') ? $path : '/';
+    $query = parse_url($uri, PHP_URL_QUERY);
+    $target = $canonical . $path . (is_string($query) && $query !== '' ? '?' . $query : '');
+
+    header_remove('X-Powered-By');
+    header('Location: ' . $target, true, 301);
+    header('Cache-Control: public, max-age=86400');
+    exit;
+}
+
 function asset(string $path): string
 {
     $path = ltrim($path, '/');

@@ -4,24 +4,30 @@
 Run from the project root:
     python3 brand/make-logo-assets.py
 
-Input : /Users/hammadarshad/Downloads/Logo Design Improvement.png
-Output: assets/img/{logo,logo-light,mark,mark-light}.png
+Input : /Users/hammadarshad/Downloads/Gemini_Generated_Image_htow4hhtow4hhtow.jpeg
+Output: assets/img/{wss,wss-light}.png          WSS script (header, footer, auth)
+        assets/img/{mark,mark-light}.png        Gold starfish emblem
+        assets/img/{logo,logo-light}.png        Full stacked lockup (social)
         assets/img/{favicon.png,logo-mark.png,og.jpg}
         favicon.svg, apple-touch-icon.png
+
+The artwork is a stacked lockup: gold starfish, WSS script, WHITE SEA STAR,
+gold rule, EST. 2009. The header and footer use the WSS script alone; the
+starfish becomes the seal used across the site.
 """
 
 from pathlib import Path
-import math
+import base64
+import io
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE = Path("/Users/hammadarshad/Downloads/Logo Design Improvement.png")
+SOURCE = Path("/Users/hammadarshad/Downloads/WSS-logo-final.png")
 IMG = ROOT / "assets" / "img"
 
 NAVY = (10, 27, 61)
-NAVY_MID = (14, 42, 85)
 GOLD = (201, 162, 39)
 GOLD_SOFT = (218, 178, 74)
 CREAM = (244, 239, 227)
@@ -29,20 +35,49 @@ CREAM = (244, 239, 227)
 FONT_BASKERVILLE = "/System/Library/Fonts/Supplemental/Baskerville.ttc"
 FONT_GILL = "/System/Library/Fonts/Supplemental/GillSans.ttc"
 
+# Tight bounds of the artwork inside the source PNG (5632 x 3072).
+FULL_BOX = (410, 690, 5205, 2070)
+WSS_BOX = (680, 1120, 2420, 1935)
+STAR_BOX = (1455, 693, 1928, 1125)
+
 
 def unmatte(image: Image.Image) -> Image.Image:
-    """Turn the white logo background into alpha, keeping the ink colours."""
-    rgb = np.asarray(image.convert("RGB")).astype(np.float32) / 255.0
-    low = rgb.min(axis=2)
-    alpha = np.clip((1.0 - low - 0.02) / 0.98, 0.0, 1.0)
-    alpha[alpha < 0.04] = 0.0
+    """Turn the warm off-white logo background into alpha.
+
+    The source is a JPEG on a soft off-white field, so alpha comes from the
+    distance to that field and edge pixels are un-mixed back to their ink
+    colour. This keeps fine gold hairlines and the sparkle texture intact.
+    """
+    rgb = np.asarray(image.convert("RGB")).astype(np.float32)
+    bg = np.array([250.0, 250.0, 248.0], dtype=np.float32)
+
+    distance = np.abs(rgb - bg).max(axis=2)
+    # Ignore JPEG noise in the paper (distance up to ~10), then ramp to solid.
+    alpha = np.clip((distance - 10.0) / 55.0, 0.0, 1.0)
+    alpha[alpha < 0.10] = 0.0
 
     safe = np.maximum(alpha, 1e-4)[..., None]
-    colour = np.clip((rgb - (1.0 - safe)) / safe, 0.0, 1.0)
+    colour = np.clip((rgb - (1.0 - safe) * bg) / safe, 0.0, 255.0)
     colour[alpha == 0] = 0.0
 
-    out = np.dstack([colour, alpha])
-    return Image.fromarray((out * 255.0 + 0.5).astype(np.uint8), "RGBA")
+    out = np.dstack([colour, alpha * 255.0])
+    return Image.fromarray((out + 0.5).astype(np.uint8), "RGBA")
+
+
+def recolour_light(image: Image.Image) -> Image.Image:
+    """Navy ink -> cream, gold ink -> brighter gold, for dark backgrounds."""
+    arr = np.asarray(image).astype(np.float32)
+    rgb = arr[..., :3]
+    alpha = arr[..., 3:4]
+    r, b = rgb[..., 0], rgb[..., 2]
+
+    gold = ((r - b) > 24) & (alpha[..., 0] > 0)
+    out = rgb.copy()
+    out[~gold] = CREAM
+    # Keep the starfish's sparkle and shading, just a touch warmer/brighter.
+    out[gold] = np.clip(rgb[gold] * 1.10 + 8.0, 0.0, 255.0)
+
+    return Image.fromarray(np.dstack([out, alpha]).astype(np.uint8), "RGBA")
 
 
 def trim(image: Image.Image, pad: int = 0) -> Image.Image:
@@ -55,56 +90,8 @@ def trim(image: Image.Image, pad: int = 0) -> Image.Image:
     return image.crop((l, t, r, b))
 
 
-def recolour_light(image: Image.Image) -> Image.Image:
-    """Navy ink -> cream, gold ink -> brighter gold, for dark backgrounds."""
-    arr = np.asarray(image).astype(np.float32)
-    rgb = arr[..., :3]
-    a = arr[..., 3:4]
-    r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
-
-    navy_mask = (b >= r + 8) & (a[..., 0] > 0)
-    gold_mask = (r > b + 24) & (a[..., 0] > 0)
-
-    out = rgb.copy()
-    out[navy_mask] = CREAM
-    out[gold_mask] = GOLD_SOFT
-
-    return Image.fromarray(np.dstack([out, a]).astype(np.uint8), "RGBA")
-
-
-def star_points(cx, cy, radius, inner_ratio=0.42, rotation=-math.pi / 2):
-    pts = []
-    for i in range(10):
-        angle = rotation + i * math.pi / 5
-        r = radius if i % 2 == 0 else radius * inner_ratio
-        pts.append((cx + math.cos(angle) * r, cy + math.sin(angle) * r))
-    return pts
-
-
-def star_polygon(cx, cy, radius, steps=720):
-    """A five-arm starfish silhouette with pointed tips and concave webbing."""
-    pts = []
-    segment = math.pi / 5  # half of one arm
-    for i in range(steps):
-        angle = -math.pi / 2 + i * 2 * math.pi / steps
-        delta = (angle + math.pi / 2) % (2 * math.pi / 5)
-        if delta > segment:
-            delta = 2 * math.pi / 5 - delta
-        r = radius * (1.0 - 0.88 * (delta / segment) ** 0.85)
-        r = max(r, radius * 0.12)
-        pts.append((cx + math.cos(angle) * r, cy + math.sin(angle) * r))
-    return pts
-
-
-def star_image(radius, fill, supersample=4):
-    """Render the starfish on a transparent tile with clean, anti-aliased edges."""
-    size = int(radius * 2.6)
-    big = Image.new("RGBA", (size * supersample, size * supersample), (0, 0, 0, 0))
-    bd = ImageDraw.Draw(big)
-    bd.polygon(star_polygon(size * supersample / 2, size * supersample / 2, radius * supersample),
-               fill=fill + (255,))
-    return big.resize((size, size), Image.LANCZOS)
-
+def resize_to_width(image: Image.Image, width: int) -> Image.Image:
+    return image.resize((width, round(width * image.height / image.width)), Image.LANCZOS)
 
 
 def draw_tracked(draw, xy, text, font, fill, tracking=0.0, anchor_left=True):
@@ -117,17 +104,19 @@ def draw_tracked(draw, xy, text, font, fill, tracking=0.0, anchor_left=True):
         x += draw.textlength(ch, font=font) + tracking
 
 
-def star_svg(cx, cy, radius, fill):
-    points = star_polygon(cx, cy, radius, steps=180)
+def icon_tile(star: Image.Image, size: int = 512) -> Image.Image:
+    """Navy rounded tile with the gold starfish from the logo."""
+    tile = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    td = ImageDraw.Draw(tile)
+    td.rounded_rectangle((0, 0, size - 1, size - 1), radius=104, fill=NAVY)
+    td.rounded_rectangle((18, 18, size - 19, size - 19), radius=88,
+                         outline=GOLD + (90,), width=3)
 
-    def f(v):
-        return f"{v:.1f}"
-
-    path = f"M {f(points[0][0])} {f(points[0][1])}"
-    for x, y in points[1:]:
-        path += f" L {f(x)} {f(y)}"
-    path += " Z"
-    return f'<path d="{path}" fill="{fill}"/>'
+    star_w = int(size * 0.56)
+    star_img = resize_to_width(star, star_w)
+    tile.alpha_composite(star_img, ((size - star_img.width) // 2,
+                                    (size - star_img.height) // 2 + 6))
+    return tile
 
 
 def build_og(logo_light: Image.Image, path: Path):
@@ -136,109 +125,96 @@ def build_og(logo_light: Image.Image, path: Path):
     px = bg.load()
     for y in range(H):
         for x in range(W):
-            # Diagonal navy gradient.
             t = (x / W) * 0.45 + (y / H) * 0.55
-            r = int(5 + t * 9)
-            g = int(14 + t * 20)
-            b = int(32 + t * 42)
-            px[x, y] = (r, g, b)
+            px[x, y] = (int(5 + t * 9), int(14 + t * 20), int(32 + t * 42))
 
-    draw = ImageDraw.Draw(bg, "RGBA")
-
-    # Soft gold glow on the right.
     glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     gd = ImageDraw.Draw(glow)
     gd.ellipse((720, -140, 1260, 400), fill=(201, 162, 39, 42))
     glow = glow.filter(ImageFilter.GaussianBlur(90))
     bg = Image.alpha_composite(bg.convert("RGBA"), glow).convert("RGB")
-    draw = ImageDraw.Draw(bg, "RGBA")
 
-    # Faint concentric rings, echoing the site's hero.
     ring = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     rd = ImageDraw.Draw(ring)
-    for radius in (150, 230, 310):
-        rd.ellipse((940 - radius, 320 - radius, 940 + radius, 320 + radius),
-                   outline=(244, 239, 227, 16), width=1)
+    for radius in (170, 260, 350):
+        rd.ellipse((960 - radius, 330 - radius, 960 + radius, 330 + radius),
+                   outline=(244, 239, 227, 14), width=1)
     bg = Image.alpha_composite(bg.convert("RGBA"), ring).convert("RGB")
     draw = ImageDraw.Draw(bg, "RGBA")
 
-    # Logo lockup, top left.
-    logo_w = 320
+    # Horizontal logo lockup, top left.
+    logo_w = 470
     logo_h = round(logo_w * logo_light.height / logo_light.width)
     logo = logo_light.resize((logo_w, logo_h), Image.LANCZOS)
-    bg.paste(logo, (72, 64), logo)
+    bg.paste(logo, (84, 74), logo)
 
-    # Headline.
-    headline = ImageFont.truetype(FONT_BASKERVILLE, 70, index=0)
-    draw.text((72, 268), "Global sourcing.", font=headline, fill=CREAM)
-    draw.text((72, 352), "Delivered with certainty.", font=headline, fill=GOLD_SOFT)
+    headline = ImageFont.truetype(FONT_BASKERVILLE, 62, index=0)
+    draw.text((84, 300), "Global sourcing.", font=headline, fill=CREAM)
+    draw.text((84, 374), "Delivered with certainty.", font=headline, fill=GOLD_SOFT)
 
     small = ImageFont.truetype(FONT_GILL, 21, index=0)
-    draw_tracked(draw, (74, 486), "DUBAI  ·  ESTABLISHED 2009", small, (218, 178, 74), tracking=3.1)
-    draw_tracked(draw, (1128, 486), "whiteseastar.com", small, (244, 239, 227), tracking=0.6, anchor_left=False)
+    draw_tracked(draw, (86, 486), "DUBAI  ·  ESTABLISHED 2009", small, GOLD_SOFT, tracking=3.1)
+    draw_tracked(draw, (1120, 486), "whiteseastar.com", small, CREAM, tracking=0.6, anchor_left=False)
 
     bg.save(path, quality=88, optimize=True, progressive=True)
+
+
+def embedded_svg(tile: Image.Image, path: Path):
+    """A single-file SVG favicon that embeds the rendered tile."""
+    small = tile.resize((256, 256), Image.LANCZOS)
+    buffer = io.BytesIO()
+    small.save(buffer, format="PNG", optimize=True)
+    payload = base64.b64encode(buffer.getvalue()).decode("ascii")
+    svg = (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" '
+        'role="img" aria-label="White Sea Star">\n'
+        f'<image width="512" height="512" href="data:image/png;base64,{payload}"/>\n'
+        '</svg>\n'
+    )
+    path.write_text(svg)
 
 
 def main():
     IMG.mkdir(parents=True, exist_ok=True)
 
     source = Image.open(SOURCE).convert("RGB")
-    full = unmatte(source.crop((403, 689, 5211, 2075)))
-    full = trim(full, pad=8)
 
-    # Mark = starfish + WSS script (the script ends at x 2400 in the source).
-    src_mark = unmatte(source.crop((680, 689, 2426, 1935)))
-    src_mark = trim(src_mark, pad=8)
+    full = trim(unmatte(source.crop(FULL_BOX)), pad=6)
+    wss = trim(unmatte(source.crop(WSS_BOX)), pad=4)
+    star = trim(unmatte(source.crop(STAR_BOX)), pad=6)
 
-    logo_w = 1400
-    logo = full.resize((logo_w, round(logo_w * full.height / full.width)), Image.LANCZOS)
+    wss_asset = resize_to_width(wss, 600)
+    wss_asset.save(IMG / "wss.png", optimize=True)
+    recolour_light(wss_asset).save(IMG / "wss-light.png", optimize=True)
+
+    logo = resize_to_width(full, 800)
     logo.save(IMG / "logo.png", optimize=True)
-
     logo_light = recolour_light(logo)
     logo_light.save(IMG / "logo-light.png", optimize=True)
 
-    mark_w = 760
-    mark = src_mark.resize((mark_w, round(mark_w * src_mark.height / src_mark.width)), Image.LANCZOS)
+    mark = resize_to_width(star, 420)
     mark.save(IMG / "mark.png", optimize=True)
-    recolour_light(mark).save(IMG / "mark-light.png", optimize=True)
+    mark_light = recolour_light(mark)
+    mark_light.save(IMG / "mark-light.png", optimize=True)
 
-    # Square brand tile, used for the icon and structured data.
-    size = 512
-    tile = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    td = ImageDraw.Draw(tile)
-    td.rounded_rectangle((0, 0, size - 1, size - 1), radius=104, fill=NAVY)
-    td.rounded_rectangle((18, 18, size - 19, size - 19), radius=88,
-                         outline=GOLD + (90,), width=3)
-    star_layer = star_image(size * 0.30, GOLD_SOFT)
-    tile.alpha_composite(star_layer, (int(size / 2 - star_layer.width / 2),
-                                      int(size / 2 + 8 - star_layer.height / 2)))
+    tile = icon_tile(star, 512)
     tile.save(IMG / "logo-mark.png", optimize=True)
+    tile.save(IMG / "favicon.png", optimize=True)
+    tile.resize((180, 180), Image.LANCZOS).convert("RGB").save(ROOT / "apple-touch-icon.png",
+                                                              optimize=True)
+    tile.resize((192, 192), Image.LANCZOS).save(IMG / "icon-192.png", optimize=True)
 
-    icon = tile.resize((512, 512), Image.LANCZOS)
-    icon.save(IMG / "favicon.png", optimize=True)
-    tile.resize((180, 180), Image.LANCZOS).convert("RGB").save(ROOT / "apple-touch-icon.png", optimize=True)
-
-    star = star_svg(256, 264, 150, "#D9B44A")
-    svg = (
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" '
-        'aria-label="White Sea Star">\n'
-        '<rect width="512" height="512" rx="104" fill="#0A1B3D"/>\n'
-        '<rect x="18" y="18" width="476" height="476" rx="88" fill="none" '
-        'stroke="#C9A227" stroke-opacity=".35" stroke-width="3"/>\n'
-        f'{star}\n'
-        '</svg>\n'
-    )
-    (ROOT / "favicon.svg").write_text(svg)
-
+    embedded_svg(tile, ROOT / "favicon.svg")
     build_og(logo_light, IMG / "og.jpg")
 
-    for name in ("logo.png", "logo-light.png", "mark.png", "mark-light.png",
-                 "logo-mark.png", "favicon.png"):
+    for name in ("wss.png", "wss-light.png", "logo.png", "logo-light.png",
+                 "mark.png", "mark-light.png", "logo-mark.png", "favicon.png", "og.jpg"):
         p = IMG / name
-        print(f"{name:16} {Image.open(p).size}  {p.stat().st_size // 1024} KB")
-    print("og.jpg           ", Image.open(IMG / "og.jpg").size)
-    print("apple-touch-icon ", Image.open(ROOT / "apple-touch-icon.png").size)
+        with Image.open(p) as opened:
+            print(f"{name:16} {opened.size}  {p.stat().st_size // 1024} KB")
+    with Image.open(ROOT / "apple-touch-icon.png") as opened:
+        print("apple-touch-icon ", opened.size)
+    print("favicon.svg      ", (ROOT / "favicon.svg").stat().st_size // 1024, "KB")
 
 
 if __name__ == "__main__":

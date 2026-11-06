@@ -26,7 +26,7 @@ $currentUser = current_user();
 <header class="site-header" data-header>
     <div class="container header__inner">
         <a class="brand" href="/" aria-label="White Sea Star General Trading L.L.C — home">
-            <img class="brand__logo" src="<?= e(asset('img/logo.png')) ?>" alt="" width="204" height="58" fetchpriority="high" decoding="async">
+            <img class="brand__logo" src="<?= e(asset('img/wss.png')) ?>" alt="" width="118" height="50" fetchpriority="high" decoding="async">
         </a>
 
         <nav class="site-nav" id="site-nav" aria-label="Primary navigation">

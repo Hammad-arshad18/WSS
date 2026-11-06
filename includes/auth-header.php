@@ -15,7 +15,7 @@ $nonce = csp_nonce();
     <section class="auth-brand" aria-label="White Sea Star">
         <div class="auth-brand__pattern" aria-hidden="true"></div>
         <a class="auth-brand__logo" href="/" aria-label="White Sea Star home">
-            <img src="<?= e(asset('img/logo-light.png')) ?>" alt="" width="337" height="96">
+            <img src="<?= e(asset('img/wss-light.png')) ?>" alt="" width="226" height="96">
         </a>
 
         <div class="auth-brand__content">

@@ -23,7 +23,7 @@ return [
         'url' => $appUrl,
         'base_path' => rtrim($env('WSS_BASE_PATH', ''), '/'),
         'timezone' => 'Asia/Dubai',
-        'asset_version' => $env('WSS_ASSET_VERSION', '1.6.0'),
+        'asset_version' => $env('WSS_ASSET_VERSION', '1.8.1'),
         'debug' => filter_var($env('WSS_DEBUG', 'false'), FILTER_VALIDATE_BOOLEAN),
         'trust_proxy' => filter_var($env('WSS_TRUST_PROXY', 'false'), FILTER_VALIDATE_BOOLEAN),
     ],
@@ -41,6 +41,8 @@ return [
         'google_verification' => $env('WSS_GOOGLE_VERIFICATION', ''),
         'bing_verification' => $env('WSS_BING_VERIFICATION', ''),
         'default_image' => '/assets/img/og.jpg',
+        // X/Twitter @handle, without the @. Leave empty until the account exists.
+        'twitter_site' => ltrim($env('WSS_TWITTER_SITE', ''), '@'),
     ],
 
     'security' => [

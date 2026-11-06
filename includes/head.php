@@ -34,6 +34,8 @@ $canonical = absolute_url($canonicalPath);
 $nonce = csp_nonce();
 $googleVerification = trim((string) config('seo.google_verification', ''));
 $bingVerification = trim((string) config('seo.bing_verification', ''));
+$twitterSite = ltrim(trim((string) config('seo.twitter_site', '')), '@');
+$twitterSite = preg_match('/^[A-Za-z0-9_]{1,15}$/', $twitterSite) === 1 ? $twitterSite : '';
 
 $organizationId = absolute_url('/') . '#organization';
 $websiteId = absolute_url('/') . '#website';
@@ -204,6 +206,9 @@ foreach ($pageSchema as $node) {
 <meta property="og:image:alt" content="<?= e($ogImageAlt) ?>">
 <meta property="og:url" content="<?= e($canonical) ?>">
 <meta name="twitter:card" content="summary_large_image">
+<?php if ($twitterSite !== ''): ?>
+<meta name="twitter:site" content="@<?= e($twitterSite) ?>">
+<?php endif; ?>
 <meta name="twitter:title" content="<?= e($fullTitle) ?>">
 <meta name="twitter:description" content="<?= e($description) ?>">
 <meta name="twitter:image" content="<?= e($ogImage) ?>">
@@ -214,6 +219,7 @@ foreach ($pageSchema as $node) {
 ]) ?></script>
 <?php endif; ?>
 <meta name="theme-color" content="#0A1B3D">
+<link rel="manifest" href="<?= e(url('/site.webmanifest')) ?>">
 <link rel="icon" type="image/svg+xml" href="<?= e(url('/favicon.svg')) ?>?v=<?= e((string) config('app.asset_version', '1')) ?>">
 <link rel="alternate icon" type="image/png" href="<?= e(asset('img/favicon.png')) ?>">
 <link rel="apple-touch-icon" href="<?= e(url('/apple-touch-icon.png')) ?>?v=<?= e((string) config('app.asset_version', '1')) ?>">

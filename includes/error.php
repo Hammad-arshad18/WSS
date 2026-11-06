@@ -19,7 +19,7 @@ $nonce = csp_nonce();
 <body class="error-body">
     <div class="error-shell">
         <a class="error-brand" href="/" aria-label="White Sea Star home">
-            <img src="<?= e(asset('img/logo-light.png')) ?>" alt="" width="295" height="84">
+            <img src="<?= e(asset('img/wss-light.png')) ?>" alt="" width="198" height="84">
         </a>
 
         <div class="error-content">

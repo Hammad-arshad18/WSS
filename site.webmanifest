@@ -1,0 +1,26 @@
+{
+  "name": "White Sea Star General Trading L.L.C",
+  "short_name": "White Sea Star",
+  "description": "White Sea Star is a Dubai-based sourcing and supply partner established in 2009. Supplier sourcing, procurement, project materials and logistics.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0A1B3D",
+  "theme_color": "#0A1B3D",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/assets/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
