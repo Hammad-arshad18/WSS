@@ -70,7 +70,7 @@ require includes_path('header.php');
 
             <aside class="story-card reveal">
                 <div class="story-card__head">
-                    <img src="<?= e(asset('img/mark.png')) ?>" alt="" width="70" height="73" loading="lazy" decoding="async">
+                    <img src="<?= e(asset('img/mark.png')) ?>" alt="" width="70" height="50" loading="lazy" decoding="async">
                     <span class="story-card__est">Est.<br><strong>2009</strong></span>
                 </div>
                 <blockquote>"Reliability is not a promise we make. It is the way we work."</blockquote>

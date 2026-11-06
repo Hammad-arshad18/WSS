@@ -18,7 +18,7 @@ assets/                  Public CSS, JS and images
   css/app.css            Design system (do not rename)
   js/app.js              Navigation, password toggles, uploads, reveals
   img/                   Logos, marks, social image, favicon
-favicon.svg              Browser icon (embedded PNG)
+favicon.svg              Browser icon (vector tile)
 includes/                Shared code — blocked from the web
   bootstrap.php          Configuration, session, headers, error handling
   config.php             App + database settings

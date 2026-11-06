@@ -627,7 +627,7 @@ address {
     display: flex;
     align-items: center;
     gap: 2rem;
-    min-height: 88px;
+    min-height: 100px;
 }
 
 .brand {
@@ -637,9 +637,10 @@ address {
     flex: 0 0 auto;
 }
 
-.brand__mark {
-    width: 52px;
-    height: auto;
+.brand__logo {
+    display: block;
+    width: auto;
+    height: 74px;
 }
 
 .brand__text {
@@ -1697,8 +1698,8 @@ body.nav-open .nav-toggle span:nth-child(3) {
 }
 
 .footer__logo img {
-    width: 66px;
-    height: auto;
+    width: auto;
+    height: 74px;
 }
 
 .footer__logo span {
@@ -3109,8 +3110,8 @@ a.contact-card:hover {
 }
 
 .auth-brand__logo img {
-    width: 72px;
-    height: auto;
+    width: auto;
+    height: 96px;
 }
 
 .auth-brand__content {
@@ -3389,7 +3390,7 @@ a.contact-card:hover {
 }
 
 .panel-brand img {
-    width: 40px;
+    width: 46px;
     height: auto;
 }
 
@@ -5088,8 +5089,8 @@ a.contact-card:hover {
 }
 
 .error-brand img {
-    width: 70px;
-    height: auto;
+    width: auto;
+    height: 84px;
 }
 
 .error-content {
@@ -5507,15 +5508,11 @@ a.contact-card:hover {
     }
 
     .header__inner {
-        min-height: 78px;
+        min-height: 84px;
     }
 
-    .brand__name {
-        font-size: 1.45rem;
-    }
-
-    .brand__mark {
-        width: 44px;
+    .brand__logo {
+        height: 62px;
     }
 
     .hero {
@@ -5788,8 +5785,8 @@ a.contact-card:hover {
         font-size: 15px;
     }
 
-    .brand__mark {
-        width: 40px;
+    .brand__logo {
+        height: 54px;
     }
 
     .brand__name {
@@ -5802,7 +5799,7 @@ a.contact-card:hover {
     }
 
     .header__inner {
-        min-height: 72px;
+        min-height: 76px;
         gap: 1rem;
     }
 
@@ -6608,12 +6605,12 @@ h3 {
     }
 
     .header__inner {
-        min-height: 68px;
+        min-height: 72px;
         gap: 0.75rem;
     }
 
-    .brand__mark {
-        width: 36px;
+    .brand__logo {
+        height: 48px;
     }
 
     .brand__name {

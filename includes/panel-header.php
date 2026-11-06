@@ -27,7 +27,7 @@ $roleLabel = role_label((string) ($currentUser['role'] ?? 'partner'));
 <div class="panel-shell">
     <aside class="panel-sidebar" id="panel-sidebar" data-panel-sidebar>
         <a class="panel-brand" href="/" aria-label="White Sea Star client portal — home">
-            <img src="<?= e(asset('img/mark-light.png')) ?>" alt="" width="42" height="44">
+            <img src="<?= e(asset('img/mark-light.png')) ?>" alt="" width="44" height="31">
             <span>
                 <strong>White Sea Star</strong>
                 <small>Client portal</small>

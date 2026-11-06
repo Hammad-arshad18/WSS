@@ -55,7 +55,7 @@ require includes_path('header.php');
             <div class="hero__orbit hero__orbit--inner"></div>
             <div class="hero__orbit hero__orbit--dashed"></div>
             <div class="hero__monogram">
-                <img src="<?= e(asset('img/mark-light.png')) ?>" alt="" width="230" height="242">
+                <img src="<?= e(asset('img/mark-light.png')) ?>" alt="" width="230" height="164">
             </div>
             <div class="hero__badge hero__badge--top">
                 <span>Established</span>
@@ -148,7 +148,7 @@ require includes_path('header.php');
                 <p>We operate under UAE commercial regulations and work within our licensed scope. That discipline is part of the service — practical, accountable and grounded in the realities of sourcing and supply here.</p>
 
                 <div class="about-signature">
-                    <img src="<?= e(asset('img/mark.png')) ?>" alt="" width="56" height="58" loading="lazy" decoding="async">
+                    <img src="<?= e(asset('img/mark.png')) ?>" alt="" width="56" height="40" loading="lazy" decoding="async">
                     <span>
                         <strong>Established 16 June 2009</strong>
                         <small>Dubai, United Arab Emirates</small>

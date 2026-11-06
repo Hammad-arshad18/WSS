@@ -52,9 +52,9 @@ $schemaGraph = [
         'url' => absolute_url('/'),
         'logo' => [
             '@type' => 'ImageObject',
-            'url' => absolute_url('/assets/img/logo.png'),
-            'width' => 600,
-            'height' => 262,
+            'url' => absolute_url('/assets/img/logo-mark.png'),
+            'width' => 512,
+            'height' => 512,
             'caption' => $company['name'],
         ],
         'image' => $ogImage,
