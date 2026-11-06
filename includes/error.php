@@ -18,7 +18,7 @@ $nonce = csp_nonce();
 </head>
 <body class="error-body">
     <div class="error-shell">
-        <a class="error-brand" href="/" aria-label="White Sea Star home">
+        <a class="error-brand logo-tip" href="/" aria-label="White Sea Star home" data-tooltip="<?= e($company['name']) ?>">
             <img src="<?= e(asset('img/wss-light.png')) ?>" alt="" width="198" height="84">
         </a>
 

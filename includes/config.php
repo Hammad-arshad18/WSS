@@ -23,7 +23,7 @@ return [
         'url' => $appUrl,
         'base_path' => rtrim($env('WSS_BASE_PATH', ''), '/'),
         'timezone' => 'Asia/Dubai',
-        'asset_version' => $env('WSS_ASSET_VERSION', '1.8.1'),
+        'asset_version' => $env('WSS_ASSET_VERSION', '1.8.3'),
         'debug' => filter_var($env('WSS_DEBUG', 'false'), FILTER_VALIDATE_BOOLEAN),
         'trust_proxy' => filter_var($env('WSS_TRUST_PROXY', 'false'), FILTER_VALIDATE_BOOLEAN),
     ],

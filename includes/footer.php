@@ -26,7 +26,7 @@ $services = (array) content('services', []);
     <div class="container">
         <div class="footer__grid">
             <div class="footer__brand">
-                <a class="footer__logo" href="/" aria-label="White Sea Star General Trading L.L.C — home">
+                <a class="footer__logo logo-tip" href="/" aria-label="White Sea Star General Trading L.L.C — home" data-tooltip="<?= e($company['name']) ?>">
                     <img src="<?= e(asset('img/wss-light.png')) ?>" alt="" width="198" height="84" decoding="async">
                 </a>
                 <p class="footer__blurb">A Dubai-based sourcing and supply partner connecting clients with manufacturers and suppliers since 2009.</p>
