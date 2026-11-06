@@ -17,6 +17,7 @@ $nonce = csp_nonce();
         <a class="auth-brand__logo" href="/" aria-label="White Sea Star home">
             <img src="<?= e(asset('img/wss-light.png')) ?>" alt="" width="226" height="96">
         </a>
+        <p class="auth-brand__name"><?= e($company['name']) ?></p>
 
         <div class="auth-brand__content">
             <p class="eyebrow eyebrow--light">Partner &amp; client access · Dubai</p>

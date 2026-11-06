@@ -1,6 +1,6 @@
 # White Sea Star — Apache configuration (one.com shared hosting).
 Options -Indexes
-DirectoryIndex index.php
+DirectoryIndex index.php default.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -31,8 +31,11 @@ DirectoryIndex index.php
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # All other requests go through the front controller.
+    # Front controller when present; otherwise show the maintenance page.
+    RewriteCond %{DOCUMENT_ROOT}/index.php -f
     RewriteRule ^ index.php [L]
+
+    RewriteRule ^ default.php [L]
 </IfModule>
 
 # Block dotfiles such as .env and .git.

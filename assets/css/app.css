@@ -643,6 +643,47 @@ address {
     height: 3.125rem; /* 50px */
 }
 
+/* Full company name on logo hover or keyboard focus. */
+.logo-tip {
+    position: relative;
+}
+
+.logo-tip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: calc(100% + 0.55rem);
+    left: 0;
+    z-index: 95;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid rgba(201, 162, 39, 0.5);
+    border-top: 2px solid var(--gold-300);
+    background: rgba(10, 27, 61, 0.97);
+    color: var(--cream);
+    font-family: var(--sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+    white-space: nowrap;
+    box-shadow: 0 14px 34px rgba(6, 17, 38, 0.24);
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
+}
+
+.logo-tip:hover::after,
+.logo-tip:focus-visible::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logo-tip::after {
+        transition: none;
+    }
+}
+
 .brand__text {
     display: flex;
     flex-direction: column;
@@ -3112,6 +3153,24 @@ a.contact-card:hover {
 .auth-brand__logo img {
     width: auto;
     height: 6rem; /* 96px */
+}
+
+.auth-brand__name {
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+    margin-top: 0.65rem;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid rgba(201, 162, 39, 0.55);
+    border-top: 2px solid var(--gold-300);
+    background: rgba(10, 27, 61, 0.72);
+    color: var(--cream);
+    font-family: var(--sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+    white-space: nowrap;
 }
 
 .auth-brand__content {
