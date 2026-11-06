@@ -9,6 +9,7 @@ $sitemap = rtrim((string) config('app.url'), '/') . '/sitemap.xml';
 echo "User-agent: *\n";
 echo "Allow: /\n";
 echo "Disallow: /members\n";
+echo "Disallow: /login\n";
 echo "Disallow: /admin\n";
 echo "Disallow: /profile\n";
 echo "Disallow: /logout\n";

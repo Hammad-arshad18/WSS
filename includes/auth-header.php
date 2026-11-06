@@ -19,9 +19,9 @@ $nonce = csp_nonce();
         </a>
 
         <div class="auth-brand__content">
-            <p class="eyebrow eyebrow--light">Partner access · Dubai</p>
-            <h1>Built on trust.<br><em>Driven by strategy.</em></h1>
-            <p>Reports, insights and company documents — kept in one private place for our partners.</p>
+            <p class="eyebrow eyebrow--light">Partner &amp; client access · Dubai</p>
+            <h1>Built on trust.<br><em>Delivered with certainty.</em></h1>
+            <p>Company documents, supplier information and partner resources — kept in one private place for our clients and partners.</p>
         </div>
 
         <div class="auth-brand__foot">

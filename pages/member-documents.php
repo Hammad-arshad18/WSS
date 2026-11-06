@@ -3,7 +3,14 @@
 declare(strict_types=1);
 
 $user = current_user();
+$role = (string) ($user['role'] ?? 'partner');
+$allowedCategories = role_resource_categories($role);
 $categories = (array) content('resource_categories', []);
+
+if ($allowedCategories !== null) {
+    $categories = array_values(array_intersect($categories, $allowedCategories));
+}
+
 $category = input_string('category');
 $search = mb_substr(input_string('q'), 0, 100);
 
@@ -11,11 +18,11 @@ if ($category !== '' && !in_array($category, $categories, true)) {
     $category = '';
 }
 
-$resources = resource_published($category !== '' ? $category : null, $search);
-$categoryCounts = resource_category_counts();
+$resources = resource_published($category !== '' ? $category : null, $search, $allowedCategories);
+$categoryCounts = resource_category_counts($allowedCategories);
 
 $title = 'Resource library';
-$metaDescription = 'Member-only reports, insights and company documents.';
+$metaDescription = 'Documents and resources for your White Sea Star account.';
 $bodyClass = 'page-panel';
 
 require includes_path('panel-header.php');
@@ -24,7 +31,7 @@ require includes_path('panel-header.php');
     <div>
         <p class="eyebrow eyebrow--dark">Resource library</p>
         <h1 class="panel-title">Documents,<br><em>kept in one place.</em></h1>
-        <p class="panel-subtitle">Reports, insights and company documents published for our partners.</p>
+        <p class="panel-subtitle">Company documents and resources published for your account.</p>
     </div>
 </div>
 
@@ -56,7 +63,7 @@ require includes_path('panel-header.php');
     <div class="empty-state">
         <span class="empty-state__icon"><?= icon('folder') ?></span>
         <h2>No documents found</h2>
-        <p><?= $search !== '' ? 'Try a different search term or clear the filters.' : 'Documents will appear here once they are published to the member library.' ?></p>
+        <p><?= $search !== '' ? 'Try a different search term or clear the filters.' : 'Documents will appear here once they are published to the portal.' ?></p>
         <a class="btn btn--outline btn--small" href="/members/documents">Clear filters</a>
     </div>
 <?php else: ?>
@@ -71,7 +78,7 @@ require includes_path('panel-header.php');
 <div class="panel-card panel-card--note">
     <span class="panel-note__icon"><?= icon('shield') ?></span>
     <div>
-        <h2>For partner use</h2>
+        <h2>For partner and client use</h2>
         <p>These documents are confidential and provided for the purpose of our business relationship. Contact us if you need access to something that is not listed.</p>
     </div>
 </div>

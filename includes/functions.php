@@ -35,6 +35,41 @@ function content(string $key, mixed $default = null): mixed
     return array_key_exists($key, $content) ? $content[$key] : $default;
 }
 
+/**
+ * Human labels for the account roles used by the single sign-in.
+ *
+ * @return array<string, string>
+ */
+function account_role_labels(): array
+{
+    return [
+        'super_admin' => 'Super admin',
+        'partner' => 'Partner',
+        'supplier' => 'Supplier',
+        'customer' => 'Customer',
+    ];
+}
+
+function role_label(string $role): string
+{
+    return account_role_labels()[$role] ?? 'Partner';
+}
+
+/**
+ * Categories a non-admin role may see in the resource library.
+ * A null result means no restriction (partners and administrators).
+ *
+ * @return list<string>|null
+ */
+function role_resource_categories(string $role): ?array
+{
+    return match ($role) {
+        'supplier' => ['Company Documents', 'Supplier Information', 'Compliance', 'Partner Notices'],
+        'customer' => ['Company Documents', 'Service Sheets', 'Compliance'],
+        default => null,
+    };
+}
+
 function base_path(string $path = ''): string
 {
     return ROOT_PATH . ($path !== '' ? '/' . ltrim($path, '/') : '');

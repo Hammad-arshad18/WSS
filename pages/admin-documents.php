@@ -17,17 +17,17 @@ $counts = [
 ];
 $categories = (array) content('resource_categories', []);
 
-$title = 'Member documents';
-$metaDescription = 'Manage the member resource library.';
+$title = 'Portal documents';
+$metaDescription = 'Manage the client resource library.';
 $bodyClass = 'page-panel';
 
 require includes_path('panel-header.php');
 ?>
 <div class="panel-head">
     <div>
-        <p class="eyebrow eyebrow--dark">Member library</p>
+        <p class="eyebrow eyebrow--dark">Document library</p>
         <h1 class="panel-title">Documents.</h1>
-        <p class="panel-subtitle">Publish reports, insights and notices to the partner portal.</p>
+        <p class="panel-subtitle">Publish company documents, service sheets and notices to the partner portal.</p>
     </div>
     <div class="panel-head__actions">
         <a class="btn btn--dark btn--small" href="/admin/documents/create"><?= icon('plus') ?> Upload document</a>
@@ -56,7 +56,7 @@ require includes_path('panel-header.php');
         <div class="empty-state">
             <span class="empty-state__icon"><?= icon('folder') ?></span>
             <h2>No documents found</h2>
-            <p><?= $search !== '' || $status !== '' ? 'Try changing the filters or search term.' : 'Upload the first document for the member library.' ?></p>
+            <p><?= $search !== '' || $status !== '' ? 'Try changing the filters or search term.' : 'Upload the first document for the client portal.' ?></p>
             <?php if ($search !== '' || $status !== ''): ?>
                 <a class="btn btn--outline btn--small" href="/admin/documents">Clear filters</a>
             <?php else: ?>
@@ -123,7 +123,7 @@ require includes_path('panel-header.php');
     <span class="panel-note__icon"><?= icon('shield') ?></span>
     <div>
         <h2>Private by default</h2>
-        <p>Uploaded files are stored outside the public web root and served only through an authenticated download route. Drafts are never visible to members.</p>
+        <p>Uploaded files are stored outside the public web root and served only through an authenticated download route. Drafts are never visible to account holders.</p>
     </div>
 </div>
 <?php require includes_path('panel-footer.php');

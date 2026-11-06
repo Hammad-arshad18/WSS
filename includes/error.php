@@ -10,10 +10,10 @@ $nonce = csp_nonce();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <title><?= e($errorStatus) ?> · <?= e($errorTitle) ?> · White Sea Star</title>
-    <link rel="icon" type="image/svg+xml" href="<?= e(url('/favicon.svg')) ?>">
+    <link rel="icon" type="image/svg+xml" href="<?= e(url('/favicon.svg')) ?>?v=<?= e((string) config('app.asset_version', '1')) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= e(asset('css/app.css')) ?>">
 </head>
 <body class="error-body">

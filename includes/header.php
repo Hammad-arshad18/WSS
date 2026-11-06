@@ -1,7 +1,6 @@
 <?php
 
 $company = content('company');
-$sectors = (array) content('sectors', []);
 $services = (array) content('services', []);
 $currentUser = current_user();
 ?>
@@ -40,10 +39,10 @@ $currentUser = current_user();
             </button>
             <a class="site-nav__link<?= nav_active('/', true) ?>" href="/">Home</a>
             <a class="site-nav__link<?= nav_active('/about') ?>" href="/about">Company</a>
-            <a class="site-nav__link<?= nav_active('/sectors') ?>" href="/sectors">Strategy</a>
+            <a class="site-nav__link<?= nav_active('/services') ?>" href="/services">Services</a>
             <a class="site-nav__link<?= nav_active('/contact') ?>" href="/contact">Contact</a>
-            <a class="site-nav__link site-nav__link--portal<?= nav_active('/members') ?>" href="<?= $currentUser ? e(url(is_admin() ? '/admin' : '/members')) : '/members/login' ?>">
-                <?= $currentUser ? 'Member portal' : 'Members' ?>
+            <a class="site-nav__link site-nav__link--portal<?= nav_active('/members') ?>" href="<?= $currentUser ? e(url(is_admin() ? '/admin' : '/members')) : '/login' ?>">
+                <?= $currentUser ? 'Client portal' : 'Partner login' ?>
                 <?= icon('arrow') ?>
             </a>
         </nav>
@@ -54,8 +53,8 @@ $currentUser = current_user();
                     Open portal <?= icon('arrow') ?>
                 </a>
             <?php else: ?>
-                <a class="btn btn--small btn--outline header__cta" href="/members/login">
-                    Member sign in <?= icon('lock') ?>
+                <a class="btn btn--small btn--outline header__cta" href="/login">
+                    Portal sign in <?= icon('lock') ?>
                 </a>
             <?php endif; ?>
             <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu" data-nav-toggle>

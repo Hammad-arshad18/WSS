@@ -23,7 +23,7 @@
     --line-light: rgba(244, 239, 227, 0.14);
     --danger: #9c3b2c;
     --success: #2f6b4f;
-    --display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    --display: "Source Serif 4", Georgia, "Times New Roman", serif;
     --sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --container: 1240px;
     --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -205,7 +205,7 @@ address {
     color: var(--gold-ink);
     font-family: var(--display);
     font-size: 14px;
-    font-style: italic;
+    font-style: normal;
     letter-spacing: 0.06em;
     text-transform: none;
 }
@@ -658,11 +658,11 @@ address {
 
 .brand__sub {
     margin-top: 0.34rem;
-    color: var(--gold-ink);
-    font-size: 8.3px;
+    color: var(--navy-700);
+    font-size: 9.2px;
     font-weight: 600;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-transform: none;
 }
 
 .site-nav {
@@ -834,7 +834,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
     margin: 1.4rem 0 1.8rem;
     color: var(--cream);
     font-family: var(--display);
-    font-size: clamp(4rem, 7.1vw, 7.1rem);
+    font-size: clamp(3.6rem, 5.9vw, 5.4rem);
     font-weight: 400;
     letter-spacing: -0.028em;
     line-height: 0.9;
@@ -842,7 +842,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
 
 .hero__title em {
     color: var(--gold-300);
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .hero__lead {
@@ -1239,7 +1239,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
     color: var(--gold-ink);
     font-family: var(--display);
     font-size: 1.05rem;
-    font-style: italic;
+    font-style: normal;
 }
 
 .value-row h3 {
@@ -1350,7 +1350,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
     color: var(--gold-ink);
     font-family: var(--display);
     font-size: 1.15rem;
-    font-style: italic;
+    font-style: normal;
 }
 
 .sector-card__icon {
@@ -1600,7 +1600,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
     color: var(--gold-ink);
     font-family: var(--display);
     font-size: 1.4rem;
-    font-style: italic;
+    font-style: normal;
 }
 
 .advantage-card h3 {
@@ -1717,10 +1717,10 @@ body.nav-open .nav-toggle span:nth-child(3) {
 
 .footer__logo small {
     color: var(--gold-300);
-    font-size: 8.5px;
+    font-size: 9.5px;
     font-weight: 600;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-transform: none;
 }
 
 .footer__blurb {
@@ -2088,7 +2088,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
     font-family: var(--display);
     font-size: 1.85rem;
     font-weight: 400;
-    font-style: italic;
+    font-style: normal;
     line-height: 1.25;
 }
 
@@ -2191,7 +2191,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
     color: var(--gold-ink);
     font-family: var(--display);
     font-size: 1.25rem;
-    font-style: italic;
+    font-style: normal;
 }
 
 .value-card h3 {
@@ -2228,7 +2228,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
     color: var(--gold-300);
     font-family: var(--display);
     font-size: 1.25rem;
-    font-style: italic;
+    font-style: normal;
 }
 
 .capability h3 {
@@ -2322,7 +2322,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
     color: var(--gold-ink);
     font-family: var(--display);
     font-size: 1.3rem;
-    font-style: italic;
+    font-style: normal;
 }
 
 .sector-row__icon {
@@ -2368,7 +2368,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
     color: var(--gold-ink);
     font-family: var(--display);
     font-size: 1rem;
-    font-style: italic;
+    font-style: normal;
 }
 
 .sector-row__body p {
@@ -2427,7 +2427,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
     color: var(--gold-ink);
     font-family: var(--display);
     font-size: 1.3rem;
-    font-style: italic;
+    font-style: normal;
 }
 
 .process-step h3 {
@@ -5797,8 +5797,8 @@ a.contact-card:hover {
     }
 
     .brand__sub {
-        font-size: 6.9px;
-        letter-spacing: 0.19em;
+        font-size: 7.8px;
+        letter-spacing: 0.08em;
     }
 
     .header__inner {
@@ -6621,8 +6621,8 @@ h3 {
     }
 
     .brand__sub {
-        font-size: 6.3px;
-        letter-spacing: 0.17em;
+        font-size: 7.2px;
+        letter-spacing: 0.08em;
     }
 
     .hero {
@@ -6904,4 +6904,55 @@ h3 {
     .faq-list {
         grid-template-columns: 1fr;
     }
+}
+
+/* --- Service capability tags --------------------------------------------- */
+
+.capability-tags {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line-strong);
+}
+
+.capability-tags ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1rem;
+}
+
+.capability-tags li {
+    padding: 0.6rem 0.95rem;
+    border: 1px solid var(--line);
+    background: var(--white);
+    color: var(--navy-800);
+    font-size: 8.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* Professional typography: emphasis by colour and weight, not italics. */
+em, i {
+    font-style: normal;
+}
+
+/* --- Single sign-in role chips ------------------------------------------ */
+
+.auth-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.auth-roles span {
+    padding: 0.42rem 0.7rem;
+    border: 1px solid var(--line);
+    color: var(--navy-700);
+    font-size: 8.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }

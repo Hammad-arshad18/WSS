@@ -178,12 +178,12 @@ require includes_path('panel-header.php');
                 <span class="avatar avatar--lg"><?= e(initials((string) $user['name'])) ?></span>
                 <h3><?= e($user['name']) ?></h3>
                 <p><?= e($user['email']) ?></p>
-                <span class="badge badge--gold"><?= $user['role'] === 'super_admin' ? 'Super admin' : 'Member' ?></span>
+                <span class="badge badge--gold"><?= e(role_label((string) $user['role'])) ?></span>
             </div>
 
             <dl class="meta-list">
                 <div>
-                    <dt>Member since</dt>
+                    <dt>Account since</dt>
                     <dd><?= e(format_date($user['created_at'] ?? null)) ?></dd>
                 </div>
                 <div>

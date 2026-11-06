@@ -29,10 +29,10 @@ require includes_path('panel-header.php');
     <div>
         <p class="eyebrow eyebrow--dark">Administration</p>
         <h1 class="panel-title">Good to see you,<br><em><?= e($firstName) ?>.</em></h1>
-        <p class="panel-subtitle">A clear view of member access, published documents and partner enquiries.</p>
+        <p class="panel-subtitle">A clear view of partner, supplier and customer accounts, published documents and enquiries.</p>
     </div>
     <div class="panel-head__actions">
-        <a class="btn btn--outline btn--small" href="/admin/members/create"><?= icon('plus') ?> Add member</a>
+        <a class="btn btn--outline btn--small" href="/admin/members/create"><?= icon('plus') ?> Add account</a>
         <a class="btn btn--dark btn--small" href="/admin/documents/create"><?= icon('plus') ?> Upload document</a>
     </div>
 </div>
@@ -42,9 +42,9 @@ require includes_path('panel-header.php');
         <span class="stat-card__icon"><?= icon('users') ?></span>
         <div>
             <strong><?= (int) $memberStats['active'] ?></strong>
-            <span>Active members</span>
+            <span>Active accounts</span>
         </div>
-        <a class="stat-card__link" href="/admin/members" aria-label="View members"><?= icon('arrow') ?></a>
+        <a class="stat-card__link" href="/admin/members" aria-label="View accounts"><?= icon('arrow') ?></a>
     </article>
     <article class="stat-card">
         <span class="stat-card__icon"><?= icon('folder') ?></span>
@@ -113,8 +113,8 @@ require includes_path('panel-header.php');
         </div>
 
         <div class="quick-actions">
-            <a href="/admin/members/create"><?= icon('user') ?><span>Add a member<small>Create portal access</small></span><?= icon('arrow') ?></a>
-            <a href="/admin/documents/create"><?= icon('file') ?><span>Upload a document<small>Publish to members</small></span><?= icon('arrow') ?></a>
+            <a href="/admin/members/create"><?= icon('user') ?><span>Add an account<small>Create portal access</small></span><?= icon('arrow') ?></a>
+            <a href="/admin/documents/create"><?= icon('file') ?><span>Upload a document<small>Publish to portal</small></span><?= icon('arrow') ?></a>
             <a href="/admin/enquiries"><?= icon('inbox') ?><span>Review enquiries<small><?= (int) $counts['newEnquiries'] ?> awaiting attention</small></span><?= icon('arrow') ?></a>
             <a href="/admin/audit"><?= icon('shield') ?><span>Activity log<small>Security and admin events</small></span><?= icon('arrow') ?></a>
         </div>
@@ -135,7 +135,7 @@ require includes_path('panel-header.php');
             <div class="empty-state empty-state--compact">
                 <span class="empty-state__icon"><?= icon('folder') ?></span>
                 <h3>No documents yet</h3>
-                <p>Upload the first member-only document.</p>
+                <p>Upload the first portal document.</p>
                 <a class="btn btn--outline btn--small" href="/admin/documents/create">Upload document</a>
             </div>
         <?php else: ?>
@@ -190,15 +190,15 @@ require includes_path('panel-header.php');
         <div class="panel-card__head">
             <div>
                 <p class="eyebrow eyebrow--dark">Access</p>
-                <h2>Newest members</h2>
+                <h2>Newest accounts</h2>
             </div>
-            <a class="text-link" href="/admin/members">All members <?= icon('arrow') ?></a>
+            <a class="text-link" href="/admin/members">All accounts <?= icon('arrow') ?></a>
         </div>
 
         <?php if ($recentMembers === []): ?>
             <div class="empty-state empty-state--compact">
                 <span class="empty-state__icon"><?= icon('users') ?></span>
-                <h3>No members yet</h3>
+                <h3>No accounts yet</h3>
             </div>
         <?php else: ?>
             <div class="mini-list">
@@ -209,7 +209,16 @@ require includes_path('panel-header.php');
                             <strong><?= e($member['name']) ?></strong>
                             <small><?= e($member['email']) ?></small>
                         </span>
-                        <span class="badge <?= $member['role'] === 'super_admin' ? 'badge--navy' : 'badge--muted' ?>"><?= $member['role'] === 'super_admin' ? 'Admin' : 'Member' ?></span>
+                        <?php
+                        $role = (string) $member['role'];
+                        $badgeClass = match ($role) {
+                            'super_admin' => 'badge--navy',
+                            'supplier' => 'badge--soft',
+                            'customer' => 'badge--gold',
+                            default => 'badge--muted',
+                        };
+                        ?>
+                        <span class="badge <?= e($badgeClass) ?>"><?= e(role_label($role)) ?></span>
                     </a>
                 <?php endforeach; ?>
             </div>
@@ -220,7 +229,7 @@ require includes_path('panel-header.php');
         <span class="panel-note__icon"><?= icon('lock') ?></span>
         <div>
             <h2>Security posture</h2>
-            <p>All form submissions are CSRF-protected, passwords are hashed with Argon2id, and member documents are stored outside the public web root.</p>
+            <p>All form submissions are CSRF-protected, passwords are hashed with Argon2id, and client documents are stored outside the public web root.</p>
             <a class="text-link" href="/admin/audit">Review the activity log <?= icon('arrow') ?></a>
         </div>
     </section>

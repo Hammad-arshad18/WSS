@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(120) NOT NULL,
     email VARCHAR(190) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    role ENUM('super_admin', 'member') NOT NULL DEFAULT 'member',
+    role ENUM('super_admin', 'partner', 'supplier', 'customer') NOT NULL DEFAULT 'partner',
     is_active TINYINT(1) NOT NULL DEFAULT 1,
     password_changed_at DATETIME NULL,
     last_login_at DATETIME NULL,
@@ -106,3 +106,9 @@ ON DUPLICATE KEY UPDATE
     role = 'super_admin',
     is_active = VALUES(is_active),
     password_changed_at = UTC_TIMESTAMP();
+
+-- Upgrade older installations that used the single "member" role.
+-- The temporary enum keeps existing values valid while they are migrated.
+ALTER TABLE users MODIFY COLUMN role ENUM('super_admin', 'member', 'partner', 'supplier', 'customer') NOT NULL DEFAULT 'member';
+UPDATE users SET role = 'partner' WHERE role = 'member';
+ALTER TABLE users MODIFY COLUMN role ENUM('super_admin', 'partner', 'supplier', 'customer') NOT NULL DEFAULT 'partner';

@@ -9,6 +9,13 @@ if ($resource === null || (!(int) $resource['is_published'] && !is_admin())) {
     abort(404, 'That document is not available.');
 }
 
+$user = current_user();
+$allowedCategories = role_resource_categories((string) ($user['role'] ?? 'partner'));
+
+if ($allowedCategories !== null && !in_array((string) $resource['category'], $allowedCategories, true)) {
+    abort(404, 'That document is not available.');
+}
+
 $path = upload_path((string) $resource['stored_name']);
 
 if ($path === null) {

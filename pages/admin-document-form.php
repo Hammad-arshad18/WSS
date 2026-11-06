@@ -156,7 +156,7 @@ $actionUrl = $isEdit ? '/admin/documents/' . (int) $resource['id'] : '/admin/doc
 $publishedValue = old('is_published', $isEdit ? (string) (int) $resource['is_published'] : '1') === '1';
 
 $title = $isEdit ? 'Edit document' : 'Upload document';
-$metaDescription = $isEdit ? 'Update a member-only document.' : 'Publish a member-only document.';
+$metaDescription = $isEdit ? 'Update a portal document.' : 'Publish a portal document.';
 $bodyClass = 'page-panel';
 
 require includes_path('panel-header.php');
@@ -167,7 +167,7 @@ require includes_path('panel-header.php');
     <div>
         <p class="eyebrow eyebrow--dark"><?= $isEdit ? 'Edit resource' : 'New resource' ?></p>
         <h1 class="panel-title"><?= $isEdit ? 'Edit document.' : 'Upload a document.' ?></h1>
-        <p class="panel-subtitle"><?= $isEdit ? 'Update the details or replace the file.' : 'Add a file to the member-only resource library.' ?></p>
+        <p class="panel-subtitle"><?= $isEdit ? 'Update the details or replace the file.' : 'Add a file to the client resource library.' ?></p>
     </div>
 </div>
 
@@ -185,7 +185,7 @@ require includes_path('panel-header.php');
 
             <div class="field<?= form_error('title') !== '' ? ' has-error' : '' ?>">
                 <label for="title">Document title</label>
-                <input id="title" name="title" type="text" value="<?= e(old('title', $resource['title'] ?? '')) ?>" required maxlength="180" placeholder="e.g. 2026 Market Outlook">
+                <input id="title" name="title" type="text" value="<?= e(old('title', $resource['title'] ?? '')) ?>" required maxlength="180" placeholder="e.g. 2026 Service Overview">
                 <?php if (form_error('title') !== ''): ?><p class="field__error"><?= e(form_error('title')) ?></p><?php endif; ?>
             </div>
 
@@ -205,7 +205,7 @@ require includes_path('panel-header.php');
 
             <div class="field<?= form_error('description') !== '' ? ' has-error' : '' ?>">
                 <label for="description">Short description</label>
-                <textarea id="description" name="description" rows="4" maxlength="500" placeholder="A short note to help members understand what this document contains."><?= e(old('description', $resource['description'] ?? '')) ?></textarea>
+                <textarea id="description" name="description" rows="4" maxlength="500" placeholder="A short note to help account holders understand what this document contains."><?= e(old('description', $resource['description'] ?? '')) ?></textarea>
                 <?php if (form_error('description') !== ''): ?><p class="field__error"><?= e(form_error('description')) ?></p><?php endif; ?>
             </div>
 
@@ -250,8 +250,8 @@ require includes_path('panel-header.php');
                     <input type="checkbox" name="is_published" value="1"<?= checked($publishedValue) ?>>
                     <span class="switch__track" aria-hidden="true"></span>
                     <span class="switch__body">
-                        <strong>Publish to members</strong>
-                        <small>When off, the document is saved as a draft and is not visible in the member library.</small>
+                        <strong>Publish to portal</strong>
+                        <small>When off, the document is saved as a draft and is not visible in the client portal.</small>
                     </span>
                 </label>
             </div>
@@ -303,7 +303,7 @@ require includes_path('panel-header.php');
                 <span class="panel-note__icon"><?= icon('lock') ?></span>
                 <div>
                     <h2>Publish with intent</h2>
-                    <p>Only published documents are visible to members. Save as a draft if the file still needs review.</p>
+                    <p>Only published documents are visible to account holders. Save as a draft if the file still needs review.</p>
                 </div>
             </section>
         <?php endif; ?>

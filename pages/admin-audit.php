@@ -78,7 +78,7 @@ require includes_path('panel-header.php');
     <span class="panel-note__icon"><?= icon('shield') ?></span>
     <div>
         <h2>Retention</h2>
-        <p>The activity log is append-only through the application. Entries are linked to accounts where possible; deleting a member preserves the event but removes the account link.</p>
+        <p>The activity log is append-only through the application. Entries are linked to accounts where possible; deleting an account preserves the event but removes the account link.</p>
     </div>
 </div>
 <?php require includes_path('panel-footer.php');

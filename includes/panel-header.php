@@ -14,7 +14,7 @@ if ($basePath !== '' && str_starts_with($currentPath, $basePath)) {
 $isDashboard = $currentPath === '/members' || $currentPath === '/admin';
 $isDocuments = str_starts_with($currentPath, '/members/documents') || str_starts_with($currentPath, '/admin/documents');
 $isProfile = str_starts_with($currentPath, '/profile');
-$roleLabel = ($currentUser['role'] ?? '') === 'super_admin' ? 'Super admin' : 'Member';
+$roleLabel = role_label((string) ($currentUser['role'] ?? 'partner'));
 ?>
 <!doctype html>
 <html lang="en" class="no-js">
@@ -26,11 +26,11 @@ $roleLabel = ($currentUser['role'] ?? '') === 'super_admin' ? 'Super admin' : 'M
 
 <div class="panel-shell">
     <aside class="panel-sidebar" id="panel-sidebar" data-panel-sidebar>
-        <a class="panel-brand" href="/" aria-label="White Sea Star partner portal — home">
+        <a class="panel-brand" href="/" aria-label="White Sea Star client portal — home">
             <img src="<?= e(asset('img/mark-light.png')) ?>" alt="" width="42" height="44">
             <span>
                 <strong>White Sea Star</strong>
-                <small>Partner portal</small>
+                <small>Client portal</small>
             </span>
         </a>
 
@@ -53,7 +53,7 @@ $roleLabel = ($currentUser['role'] ?? '') === 'super_admin' ? 'Super admin' : 'M
             <?php if ($isAdmin): ?>
                 <p class="panel-nav__label panel-nav__label--spaced">Administration</p>
                 <a class="panel-nav__link<?= str_starts_with($currentPath, '/admin/members') ? ' is-active' : '' ?>" href="/admin/members">
-                    <?= icon('users') ?><span>Members</span>
+                    <?= icon('users') ?><span>Accounts</span>
                 </a>
                 <a class="panel-nav__link<?= str_starts_with($currentPath, '/admin/enquiries') ? ' is-active' : '' ?>" href="/admin/enquiries">
                     <?= icon('inbox') ?><span>Enquiries</span>

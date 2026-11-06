@@ -20,7 +20,7 @@ require includes_path('header.php');
         </nav>
         <p class="eyebrow eyebrow--light">Legal</p>
         <h1 class="page-hero__title">Privacy <em>notice.</em></h1>
-        <p class="page-hero__lead">How we handle information shared with White Sea Star General Trading L.L.C through this website and the member portal.</p>
+        <p class="page-hero__lead">How we handle information shared with White Sea Star General Trading L.L.C through this website and the client portal.</p>
     </div>
 </section>
 
@@ -44,13 +44,13 @@ require includes_path('header.php');
 
                 <h2>Information we collect</h2>
                 <p>When you send a message through our contact form, we collect the name, email address, telephone number, company name and message you choose to provide, along with technical information such as your IP address and browser user agent for security and abuse prevention.</p>
-                <p>When a member account is created for you, we store your name, email address, a securely hashed password, your role and account activity. We never store passwords in readable form.</p>
+                <p>When an account is created for you, we store your name, email address, a securely hashed password, your role and account activity. We never store passwords in readable form.</p>
                 <p>We may also collect basic technical information required to serve the website securely, such as session identifiers used to keep you signed in.</p>
 
                 <h2>How we use it</h2>
                 <ul>
                     <li>To respond to your enquiry and maintain our business relationship.</li>
-                    <li>To create, secure and administer member accounts.</li>
+                    <li>To create, secure and administer partner, supplier and customer accounts.</li>
                     <li>To protect the website against fraud, abuse and unauthorised access.</li>
                     <li>To keep records required for legitimate business and legal purposes.</li>
                 </ul>
@@ -59,16 +59,16 @@ require includes_path('header.php');
                 <p>We process information because it is necessary to respond to your request, perform a contract or take steps at your request, comply with legal obligations, and pursue legitimate business interests such as security and record-keeping. We retain enquiry and account records only for as long as needed for those purposes or as required by applicable law.</p>
 
                 <h2>Security</h2>
-                <p>We apply administrative and technical safeguards, including encrypted password hashing, access controls, session protection and restricted storage for member documents. No method of transmission over the internet is completely secure, but we work to protect information against unauthorised access, alteration or loss.</p>
+                <p>We apply administrative and technical safeguards, including encrypted password hashing, access controls, session protection and restricted storage for client documents. No method of transmission over the internet is completely secure, but we work to protect information against unauthorised access, alteration or loss.</p>
 
                 <h2>Sharing</h2>
                 <p>We do not sell personal information. Information may be shared with service providers who support our website and operations, where required by law, or where necessary to protect our rights. Access is limited to people who need it.</p>
 
                 <h2>Your choices</h2>
-                <p>You may ask us to access, correct or delete the personal information we hold about you, or to stop using it for direct communication. Contact us at <a href="mailto:<?= e($company['email']) ?>"><?= e($company['email']) ?></a> and we will respond within a reasonable period. Members can update their name, email and password from the account settings page.</p>
+                <p>You may ask us to access, correct or delete the personal information we hold about you, or to stop using it for direct communication. Contact us at <a href="mailto:<?= e($company['email']) ?>"><?= e($company['email']) ?></a> and we will respond within a reasonable period. Account holders can update their name, email and password from the account settings page.</p>
 
                 <h2>Cookies and sessions</h2>
-                <p>We use a strictly necessary session cookie to keep signed-in members authenticated and to protect forms against cross-site request forgery. We do not use advertising or third-party tracking cookies on this site.</p>
+                <p>We use a strictly necessary session cookie to keep signed-in users authenticated and to protect forms against cross-site request forgery. We do not use advertising or third-party tracking cookies on this site.</p>
 
                 <h2>Changes</h2>
                 <p>We may update this notice from time to time. The revised version will be published on this page with a new date.</p>

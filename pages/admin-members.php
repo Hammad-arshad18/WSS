@@ -7,8 +7,8 @@ $search = mb_substr(input_string('q'), 0, 100);
 $members = user_all($search);
 $memberStats = user_stats();
 
-$title = 'Members';
-$metaDescription = 'Manage member access.';
+$title = 'Accounts';
+$metaDescription = 'Manage partner, supplier and customer accounts.';
 $bodyClass = 'page-panel';
 
 require includes_path('panel-header.php');
@@ -16,11 +16,11 @@ require includes_path('panel-header.php');
 <div class="panel-head">
     <div>
         <p class="eyebrow eyebrow--dark">Access</p>
-        <h1 class="panel-title">Members.</h1>
-        <p class="panel-subtitle">Create accounts, control access and review who can reach the partner library.</p>
+        <h1 class="panel-title">Accounts.</h1>
+        <p class="panel-subtitle">Create partner, supplier and customer accounts and control what each role can reach.</p>
     </div>
     <div class="panel-head__actions">
-        <a class="btn btn--dark btn--small" href="/admin/members/create"><?= icon('plus') ?> Add member</a>
+        <a class="btn btn--dark btn--small" href="/admin/members/create"><?= icon('plus') ?> Add account</a>
     </div>
 </div>
 
@@ -43,7 +43,7 @@ require includes_path('panel-header.php');
     <div class="table-toolbar">
         <form class="search-form" method="get" action="/admin/members" role="search">
             <span class="search-form__icon"><?= icon('search') ?></span>
-            <input type="search" name="q" value="<?= e($search) ?>" placeholder="Search by name or email" aria-label="Search members">
+            <input type="search" name="q" value="<?= e($search) ?>" placeholder="Search by name or email" aria-label="Search accounts">
             <button type="submit" class="search-form__submit">Search</button>
         </form>
         <?php if ($search !== ''): ?>
@@ -54,12 +54,12 @@ require includes_path('panel-header.php');
     <?php if ($members === []): ?>
         <div class="empty-state">
             <span class="empty-state__icon"><?= icon('users') ?></span>
-            <h2>No members found</h2>
-            <p><?= $search !== '' ? 'No account matches that search.' : 'Create the first member account to share the partner library.' ?></p>
+            <h2>No accounts found</h2>
+            <p><?= $search !== '' ? 'No account matches that search.' : 'Create the first partner, supplier or customer account.' ?></p>
             <?php if ($search !== ''): ?>
                 <a class="btn btn--outline btn--small" href="/admin/members">Clear search</a>
             <?php else: ?>
-                <a class="btn btn--dark btn--small" href="/admin/members/create"><?= icon('plus') ?> Add member</a>
+                <a class="btn btn--dark btn--small" href="/admin/members/create"><?= icon('plus') ?> Add account</a>
             <?php endif; ?>
         </div>
     <?php else: ?>
@@ -67,7 +67,7 @@ require includes_path('panel-header.php');
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th scope="col">Member</th>
+                        <th scope="col">Account</th>
                         <th scope="col">Role</th>
                         <th scope="col">Status</th>
                         <th scope="col">Last sign-in</th>
@@ -88,8 +88,17 @@ require includes_path('panel-header.php');
                                 </div>
                             </td>
                             <td>
-                                <span class="badge <?= $member['role'] === 'super_admin' ? 'badge--navy' : 'badge--muted' ?>">
-                                    <?= $member['role'] === 'super_admin' ? 'Super admin' : 'Member' ?>
+                                <?php
+                                $role = (string) $member['role'];
+                                $badgeClass = match ($role) {
+                                    'super_admin' => 'badge--navy',
+                                    'supplier' => 'badge--soft',
+                                    'customer' => 'badge--gold',
+                                    default => 'badge--muted',
+                                };
+                                ?>
+                                <span class="badge <?= e($badgeClass) ?>">
+                                    <?= e(role_label($role)) ?>
                                 </span>
                             </td>
                             <td>
@@ -100,7 +109,7 @@ require includes_path('panel-header.php');
                             <td class="data-table__muted"><?= e($member['last_login_at'] ? time_ago($member['last_login_at']) : 'Never') ?></td>
                             <td class="data-table__actions">
                                 <div class="row-actions">
-                                    <a class="icon-btn" href="/admin/members/<?= (int) $member['id'] ?>/edit" title="Edit member" aria-label="Edit <?= e($member['name']) ?>">
+                                    <a class="icon-btn" href="/admin/members/<?= (int) $member['id'] ?>/edit" title="Edit account" aria-label="Edit <?= e($member['name']) ?>">
                                         <?= icon('edit') ?>
                                     </a>
 
@@ -113,7 +122,7 @@ require includes_path('panel-header.php');
                                         </form>
                                         <form method="post" action="/admin/members/<?= (int) $member['id'] ?>/delete" data-confirm="Remove <?= e($member['name']) ?> permanently? This cannot be undone.">
                                             <?= csrf_field() ?>
-                                            <button class="icon-btn icon-btn--danger" type="submit" title="Remove member" aria-label="Remove <?= e($member['name']) ?>">
+                                            <button class="icon-btn icon-btn--danger" type="submit" title="Remove account" aria-label="Remove <?= e($member['name']) ?>">
                                                 <?= icon('trash') ?>
                                             </button>
                                         </form>
@@ -132,7 +141,7 @@ require includes_path('panel-header.php');
     <span class="panel-note__icon"><?= icon('shield') ?></span>
     <div>
         <h2>Access by invitation</h2>
-        <p>There is no public registration. Members are created here by a super-admin, and accounts can be deactivated at any time without deleting their history.</p>
+        <p>There is no public registration. Partner, supplier and customer accounts are created here by a super-admin. Each role sees the resources intended for it, and accounts can be deactivated at any time without deleting their history.</p>
     </div>
 </div>
 <?php require includes_path('panel-footer.php');

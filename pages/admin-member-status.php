@@ -8,7 +8,7 @@ $id = (int) ($params['id'] ?? 0);
 $member = user_find($id);
 
 if ($member === null) {
-    abort(404, 'That member could not be found.');
+    abort(404, 'That account could not be found.');
 }
 
 if ($id === auth_id()) {
@@ -31,5 +31,5 @@ audit_record(
     ($isActive ? 'Deactivated' : 'Activated') . ' account #' . $id . ' (' . $member['email'] . ')'
 );
 
-flash('success', $isActive ? 'Member deactivated.' : 'Member activated.');
+flash('success', $isActive ? 'Account deactivated.' : 'Account activated.');
 redirect('/admin/members');

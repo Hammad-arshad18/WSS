@@ -3,14 +3,22 @@
 declare(strict_types=1);
 
 $user = current_user();
-$resources = resource_latest_published(4);
-$resourceCount = resource_count_published();
-$categoryCounts = resource_category_counts();
-$categories = (array) content('resource_categories', []);
+$role = (string) ($user['role'] ?? 'partner');
+$roleCategories = role_resource_categories($role);
+$resources = resource_latest_published(4, $roleCategories);
+$resourceCount = resource_count_published($roleCategories);
+$categoryCounts = resource_category_counts($roleCategories);
 $firstName = explode(' ', trim((string) $user['name']))[0] ?? 'partner';
+$roleDescriptions = [
+    'partner' => 'Your private library of company documents, supplier information and partner resources.',
+    'supplier' => 'Your supplier information, compliance documents and company resources.',
+    'customer' => 'Your service sheets, company documents and account resources.',
+    'super_admin' => 'Administration overview and published resources.',
+];
+$roleDescription = $roleDescriptions[$role] ?? $roleDescriptions['partner'];
 
-$title = 'Member dashboard';
-$metaDescription = 'Your White Sea Star member area.';
+$title = 'Portal dashboard';
+$metaDescription = 'Your White Sea Star partner and client portal.';
 $bodyClass = 'page-panel';
 
 require includes_path('panel-header.php');
@@ -19,7 +27,7 @@ require includes_path('panel-header.php');
     <div>
         <p class="eyebrow eyebrow--dark">Dashboard</p>
         <h1 class="panel-title">Welcome back,<br><em><?= e($firstName) ?>.</em></h1>
-        <p class="panel-subtitle">Your private library of reports, insights and partner resources.</p>
+        <p class="panel-subtitle"><?= e($roleDescription) ?></p>
     </div>
     <div class="panel-head__actions">
         <a class="btn btn--dark btn--small" href="/members/documents">Browse library <?= icon('arrow') ?></a>
@@ -64,7 +72,7 @@ require includes_path('panel-header.php');
             <div class="empty-state empty-state--compact">
                 <span class="empty-state__icon"><?= icon('folder') ?></span>
                 <h3>No documents yet</h3>
-                <p>New reports and partner documents will appear here as soon as they are published.</p>
+                <p>New documents and resources will appear here as soon as they are published.</p>
             </div>
         <?php else: ?>
             <div class="doc-grid doc-grid--dashboard">
@@ -79,7 +87,7 @@ require includes_path('panel-header.php');
         <div class="panel-card__head">
             <div>
                 <p class="eyebrow eyebrow--dark">Your account</p>
-                <h2>Membership</h2>
+                <h2>Your account</h2>
             </div>
         </div>
 
@@ -87,12 +95,12 @@ require includes_path('panel-header.php');
             <span class="avatar avatar--lg"><?= e(initials((string) $user['name'])) ?></span>
             <h3><?= e($user['name']) ?></h3>
             <p><?= e($user['email']) ?></p>
-            <span class="badge badge--gold"><?= $user['role'] === 'super_admin' ? 'Super admin' : 'Member' ?></span>
+            <span class="badge badge--gold"><?= e(role_label($role)) ?></span>
         </div>
 
         <dl class="meta-list">
             <div>
-                <dt>Member since</dt>
+                <dt>Account since</dt>
                 <dd><?= e(format_date($user['created_at'] ?? null)) ?></dd>
             </div>
             <div>

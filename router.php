@@ -13,10 +13,8 @@ return [
     // Public website
     ['GET',  '/', 'home.php', 'public'],
     ['GET',  '/about', 'about.php', 'public'],
-    ['GET',  '/sectors', 'sectors.php', 'public'],
-    ['GET',  '/sectors/{slug}', 'sector.php', 'public'],
-    ['GET',  '/expertise', 'expertise.php', 'public'],
-    ['GET',  '/expertise/{slug}', 'expertise-detail.php', 'public'],
+    ['GET',  '/services', 'services.php', 'public'],
+    ['GET',  '/services/{slug}', 'service.php', 'public'],
     ['GET',  '/contact', 'contact.php', 'public'],
     ['POST', '/contact', 'contact.php', 'public'],
     ['GET',  '/privacy', 'privacy.php', 'public'],
@@ -24,6 +22,8 @@ return [
     ['GET',  '/sitemap.xml', 'sitemap.php', 'public'],
 
     // Sign in / sign out
+    ['GET',  '/login', 'login.php', 'guest'],
+    ['POST', '/login', 'login.php', 'guest'],
     ['GET',  '/members/login', 'login.php', 'guest'],
     ['POST', '/members/login', 'login.php', 'guest'],
     ['POST', '/logout', 'logout.php', 'auth'],

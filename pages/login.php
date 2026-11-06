@@ -17,20 +17,20 @@ if (is_post()) {
         flash_errors($errors);
         flash_input(['email' => $email]);
         flash('error', 'Enter your email address and password.');
-        redirect('/members/login');
+        redirect('/login');
     }
 
     $status = auth_attempt($email, $password);
 
     if ($status === 'throttled') {
         flash('error', 'Too many failed attempts. Please wait 15 minutes before trying again.');
-        redirect('/members/login');
+        redirect('/login');
     }
 
     if ($status !== 'ok') {
         flash_input(['email' => $email]);
         flash('error', 'The email address or password is incorrect.');
-        redirect('/members/login');
+        redirect('/login');
     }
 
     $intended = $_SESSION['intended'] ?? null;
@@ -39,23 +39,29 @@ if (is_post()) {
     $user = current_user();
     flash('success', 'Welcome back, ' . ($user['name'] ?? 'partner') . '.');
 
-    if (is_string($intended) && valid_redirect($intended) && $intended !== '/members/login') {
+    if (is_string($intended) && valid_redirect($intended) && !in_array($intended, ['/login', '/members/login'], true)) {
         redirect($intended);
     }
 
     redirect(is_admin() ? '/admin' : '/members');
 }
 
-$title = 'Member sign in';
-$metaDescription = 'Sign in to the White Sea Star partner portal.';
+$title = 'Partner, supplier & customer sign in';
+$metaDescription = 'Sign in to the White Sea Star partner and client portal.';
 $bodyClass = 'page-login';
 
 require includes_path('auth-header.php');
 ?>
 <div class="auth-card__inner">
-    <p class="eyebrow eyebrow--dark">Member portal</p>
+    <p class="eyebrow eyebrow--dark">Partner &amp; client portal</p>
     <h2 class="auth-title">Welcome <em>back.</em></h2>
-    <p class="auth-intro">Sign in to access reports, insights and documents shared with our partners.</p>
+    <p class="auth-intro">One secure sign-in for partners, suppliers and customers. Use the account provided by your White Sea Star contact.</p>
+
+    <div class="auth-roles" aria-label="Account types">
+        <span>Partners</span>
+        <span>Suppliers</span>
+        <span>Customers</span>
+    </div>
 
     <?php if (form_error('email') !== '' || form_error('password') !== ''): ?>
         <div class="form-alert" role="alert">
@@ -64,7 +70,7 @@ require includes_path('auth-header.php');
         </div>
     <?php endif; ?>
 
-    <form class="form form--auth" method="post" action="/members/login" novalidate>
+    <form class="form form--auth" method="post" action="/login" novalidate>
         <?= csrf_field() ?>
 
         <div class="field<?= form_error('email') !== '' ? ' has-error' : '' ?>">
@@ -90,7 +96,7 @@ require includes_path('auth-header.php');
 
     <div class="auth-note">
         <?= icon('lock') ?>
-        <p>Access is by invitation only. To request an account or reset your password, <a href="/contact">speak with our team</a>.</p>
+        <p>Accounts are issued by invitation. Partners, suppliers and customers can request access through <a href="/contact">our team</a>.</p>
     </div>
 
     <div class="auth-security">

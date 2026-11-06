@@ -9,7 +9,7 @@ foreach ($services as $service) {
     $subjects[] = $service['name'];
 }
 
-$subjects[] = 'Partnership';
+$subjects[] = 'Supplier partnership';
 
 if (is_post()) {
     csrf_verify();
@@ -65,14 +65,14 @@ if (is_post()) {
     redirect('/contact?sent=1#form');
 }
 
-$selected = input_string('sector');
+$selected = input_string('service', input_string('sector'));
 
 if (!in_array($selected, $subjects, true)) {
     $selected = 'General enquiry';
 }
 
-$title = 'Contact Our Dubai Strategy Team | White Sea Star';
-$metaDescription = 'Contact White Sea Star in Deira, Dubai. Speak with our strategy team about market entry, growth, partnerships or a potential engagement.';
+$title = 'Contact Our Dubai Sourcing Team | White Sea Star';
+$metaDescription = 'Contact White Sea Star in Deira, Dubai. Speak with our sourcing team about products, specifications, project supply or supplier partnerships.';
 $bodyClass = 'page-contact';
 $breadcrumbs = [['name' => 'Contact', 'path' => '/contact']];
 $pageSchema = [
@@ -101,7 +101,7 @@ require includes_path('header.php');
         </nav>
         <p class="eyebrow eyebrow--light"><span class="eyebrow__num">03</span> Start a conversation</p>
         <h1 class="page-hero__title">Let's talk about<br><em>what you need.</em></h1>
-        <p class="page-hero__lead">A strategy question, a market-entry challenge or a potential partnership — our team in Dubai is ready to talk.</p>
+        <p class="page-hero__lead">A product requirement, a project supply package or a supplier partnership — our team in Dubai is ready to talk.</p>
     </div>
 </section>
 
@@ -154,7 +154,7 @@ require includes_path('header.php');
                     <span class="contact-member__icon"><?= icon('lock') ?></span>
                     <div>
                         <strong>Already a partner?</strong>
-                        <p>Access reports, insights and company documents in the <a href="/members/login">member portal</a>.</p>
+                        <p>Access company documents and partner resources in the <a href="/login">client portal</a>.</p>
                     </div>
                 </div>
             </aside>
@@ -214,7 +214,7 @@ require includes_path('header.php');
 
                     <div class="field<?= form_error('message') !== '' ? ' has-error' : '' ?>">
                         <label for="message">Your message <span aria-hidden="true">*</span></label>
-                        <textarea id="message" name="message" rows="6" required maxlength="5000" placeholder="The question you are working through, the market you have in mind and the decision ahead — a few details help us respond properly."><?= e(old('message')) ?></textarea>
+                        <textarea id="message" name="message" rows="6" required maxlength="5000" placeholder="Products, quantities, specifications, destination and timeline — a few details help us respond properly."><?= e(old('message')) ?></textarea>
                         <?php if (form_error('message') !== ''): ?><p class="field__error"><?= e(form_error('message')) ?></p><?php endif; ?>
                     </div>
 

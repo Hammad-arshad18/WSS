@@ -13,14 +13,14 @@ $fullTitle = str_contains((string) $title, 'White Sea Star')
     : $title . ' · White Sea Star';
 $description = $metaDescription !== ''
     ? $metaDescription
-    : 'White Sea Star General Trading L.L.C is a Dubai-based strategy practice established in 2009, helping partners with market entry, growth and execution.';
+    : 'White Sea Star General Trading L.L.C is a Dubai-based sourcing and supply partner established in 2009, connecting clients with manufacturers and suppliers.';
 $noindex = $noindex ?? (str_contains($bodyClass, 'page-panel') || str_contains($bodyClass, 'page-login'));
 $pageType = $pageType ?? 'website';
 $breadcrumbs = $breadcrumbs ?? [];
 $pageSchema = $pageSchema ?? [];
 $ogImagePath = $ogImage ?? (string) config('seo.default_image', '/assets/img/og.jpg');
 $ogImage = absolute_url($ogImagePath);
-$ogImageAlt = $ogImageAlt ?? 'White Sea Star General Trading L.L.C — strategy practice in Dubai';
+$ogImageAlt = $ogImageAlt ?? 'White Sea Star General Trading L.L.C — global sourcing and supply from Dubai';
 $lastModified = $lastModified ?? (@filemtime(includes_path('content.php')) ?: time());
 $basePath = (string) config('app.base_path', '');
 $canonicalPath = request_path();
@@ -53,12 +53,12 @@ $schemaGraph = [
         'logo' => [
             '@type' => 'ImageObject',
             'url' => absolute_url('/assets/img/logo.png'),
-            'width' => 520,
-            'height' => 475,
+            'width' => 600,
+            'height' => 262,
             'caption' => $company['name'],
         ],
         'image' => $ogImage,
-        'description' => 'White Sea Star General Trading L.L.C is a Dubai-based strategy practice working across market entry, growth, commercial advisory, partnerships and operating models.',
+        'description' => 'White Sea Star General Trading L.L.C is a Dubai-based sourcing and supply partner connecting clients with manufacturers and suppliers across local and international markets.',
         'slogan' => $company['tagline'],
         'foundingDate' => '2009-06-16',
         'email' => $company['email'],
@@ -74,7 +74,7 @@ $schemaGraph = [
         'openingHoursSpecification' => [
             [
                 '@type' => 'OpeningHoursSpecification',
-                'dayOfWeek' => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'],
+                'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
                 'opens' => '09:00',
                 'closes' => '18:00',
             ],
@@ -86,7 +86,7 @@ $schemaGraph = [
             ['@type' => 'Place', 'name' => 'South Asia'],
         ],
         'knowsAbout' => array_values(array_unique(array_merge(
-            ['Strategy consulting', 'Market entry strategy', 'Business growth strategy', 'Commercial advisory'],
+            ['Global sourcing', 'Procurement', 'Project supply', 'Import and export', 'Logistics coordination'],
             $serviceNames
         ))),
         'contactPoint' => [
@@ -214,11 +214,11 @@ foreach ($pageSchema as $node) {
 ]) ?></script>
 <?php endif; ?>
 <meta name="theme-color" content="#0A1B3D">
-<link rel="icon" type="image/svg+xml" href="<?= e(url('/favicon.svg')) ?>">
+<link rel="icon" type="image/svg+xml" href="<?= e(url('/favicon.svg')) ?>?v=<?= e((string) config('app.asset_version', '1')) ?>">
 <link rel="alternate icon" type="image/png" href="<?= e(asset('img/favicon.png')) ?>">
-<link rel="apple-touch-icon" href="<?= e(url('/apple-touch-icon.png')) ?>">
+<link rel="apple-touch-icon" href="<?= e(url('/apple-touch-icon.png')) ?>?v=<?= e((string) config('app.asset_version', '1')) ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<?= e(asset('css/app.css')) ?>">
 <script nonce="<?= e($nonce) ?>">document.documentElement.classList.add('js');</script>

@@ -8,7 +8,7 @@ $id = (int) ($params['id'] ?? 0);
 $member = user_find($id);
 
 if ($member === null) {
-    abort(404, 'That member could not be found.');
+    abort(404, 'That account could not be found.');
 }
 
 if ($id === auth_id()) {
@@ -29,5 +29,5 @@ audit_record(
     'Deleted account #' . $id . ' (' . $member['email'] . ')'
 );
 
-flash('success', 'Member account removed.');
+flash('success', 'Account removed.');
 redirect('/admin/members');

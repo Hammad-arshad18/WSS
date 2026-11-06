@@ -9,11 +9,11 @@ $services = (array) content('services', []);
 <section class="pre-footer">
     <div class="container pre-footer__inner">
         <div class="pre-footer__seal" aria-hidden="true">
-            <img src="<?= e(asset('img/mark.png')) ?>" alt="" width="64" height="68" loading="lazy" decoding="async">
+            <img src="<?= e(asset('img/mark.png')) ?>" alt="" width="64" height="66" loading="lazy" decoding="async">
         </div>
         <div class="pre-footer__copy">
             <p class="eyebrow eyebrow--dark">A conversation, not a transaction</p>
-            <h2 class="pre-footer__title">Let's build the next <em>partnership.</em></h2>
+            <h2 class="pre-footer__title">Let's build the next <em>supply partnership.</em></h2>
         </div>
         <div class="pre-footer__actions">
             <a class="btn btn--gold" href="/contact">Start a conversation <?= icon('arrow') ?></a>
@@ -27,13 +27,13 @@ $services = (array) content('services', []);
         <div class="footer__grid">
             <div class="footer__brand">
                 <a class="footer__logo" href="/" aria-label="White Sea Star General Trading L.L.C — home">
-                    <img src="<?= e(asset('img/mark-light.png')) ?>" alt="" width="66" height="70" loading="lazy" decoding="async">
+                    <img src="<?= e(asset('img/mark-light.png')) ?>" alt="" width="66" height="68" loading="lazy" decoding="async">
                     <span>
                         <strong>White Sea Star</strong>
                         <small>General Trading L.L.C</small>
                     </span>
                 </a>
-                <p class="footer__blurb">A Dubai-based strategy practice helping partners navigate complex markets with clarity since 2009.</p>
+                <p class="footer__blurb">A Dubai-based sourcing and supply partner connecting clients with manufacturers and suppliers since 2009.</p>
                 <p class="footer__est">Established 16 June 2009</p>
             </div>
 
@@ -42,19 +42,19 @@ $services = (array) content('services', []);
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/about">The company</a></li>
-                    <li><a href="/sectors">Strategy</a></li>
+                    <li><a href="/services">Services</a></li>
                     <li><a href="/contact">Contact</a></li>
-                    <li><a href="/members/login">Member portal</a></li>
+                    <li><a href="/login">Partner login</a></li>
                 </ul>
             </div>
 
             <div class="footer__col">
-                <h3>Expertise</h3>
+                <h3>Services</h3>
                 <ul>
                     <?php foreach ($services as $service): ?>
-                        <li><a href="/expertise/<?= e($service['slug']) ?>"><?= e($service['name']) ?></a></li>
+                        <li><a href="/services/<?= e($service['slug']) ?>"><?= e($service['footer_name'] ?? $service['name']) ?></a></li>
                     <?php endforeach; ?>
-                    <li><a class="footer__more" href="/expertise">All expertise <?= icon('arrow') ?></a></li>
+                    <li><a class="footer__more" href="/services">All services <?= icon('arrow') ?></a></li>
                 </ul>
             </div>
 

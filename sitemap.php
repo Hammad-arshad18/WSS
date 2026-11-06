@@ -10,17 +10,15 @@ $contentModified = @filemtime(includes_path('content.php')) ?: time();
 $urls = [
     ['loc' => '/', 'file' => 'pages/home.php', 'priority' => '1.0', 'changefreq' => 'monthly'],
     ['loc' => '/about', 'file' => 'pages/about.php', 'priority' => '0.8', 'changefreq' => 'yearly'],
-    ['loc' => '/sectors', 'file' => 'pages/sectors.php', 'priority' => '0.9', 'changefreq' => 'monthly'],
-    ['loc' => '/sectors/strategy', 'file' => 'pages/sector.php', 'priority' => '0.9', 'changefreq' => 'monthly'],
-    ['loc' => '/expertise', 'file' => 'pages/expertise.php', 'priority' => '0.9', 'changefreq' => 'monthly'],
+    ['loc' => '/services', 'file' => 'pages/services.php', 'priority' => '0.9', 'changefreq' => 'monthly'],
     ['loc' => '/contact', 'file' => 'pages/contact.php', 'priority' => '0.7', 'changefreq' => 'yearly'],
     ['loc' => '/privacy', 'file' => 'pages/privacy.php', 'priority' => '0.3', 'changefreq' => 'yearly'],
 ];
 
 foreach ((array) content('services', []) as $service) {
     $urls[] = [
-        'loc' => '/expertise/' . $service['slug'],
-        'file' => 'pages/expertise-detail.php',
+        'loc' => '/services/' . $service['slug'],
+        'file' => 'pages/service.php',
         'priority' => '0.8',
         'changefreq' => 'monthly',
     ];

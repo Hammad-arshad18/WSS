@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-$title = 'About White Sea Star | Dubai Strategy Practice Since 2009';
-$metaDescription = 'Established in Dubai in 2009, White Sea Star General Trading L.L.C is a strategy practice helping leaders navigate complex markets.';
+$title = 'About White Sea Star | Dubai Sourcing & Supply Since 2009';
+$metaDescription = 'Established in Dubai in 2009, White Sea Star General Trading L.L.C connects clients with manufacturers and suppliers across local and international markets.';
 $bodyClass = 'page-about';
 $company = content('company');
 $values = (array) content('values', []);
@@ -33,8 +33,8 @@ require includes_path('header.php');
             <span>The company</span>
         </nav>
         <p class="eyebrow eyebrow--light"><span class="eyebrow__num">01</span> Company overview</p>
-        <h1 class="page-hero__title">A strategy practice built<br>on <em>relationships.</em></h1>
-        <p class="page-hero__lead">Established in Dubai in 2009, White Sea Star General Trading L.L.C works with founders, investors and leadership teams to turn complex market questions into clear, executable strategy.</p>
+        <h1 class="page-hero__title">A sourcing partner built<br>on <em>relationships.</em></h1>
+        <p class="page-hero__lead">Established in Dubai in 2009, White Sea Star General Trading L.L.C connects clients with manufacturers and suppliers across local and international markets.</p>
     </div>
 </section>
 
@@ -44,9 +44,9 @@ require includes_path('header.php');
             <div class="story-copy reveal">
                 <p class="eyebrow eyebrow--dark">Our story</p>
                 <h2 class="section-title">Seventeen years of<br><em>steady progress.</em></h2>
-                <p class="lead">What began as a focused Dubai commercial practice has grown into a strategy house serving clients across the region and beyond.</p>
-                <p>Over the past decade and more, we have built a reputation for clear thinking, practical advice and long-term relationships. Our cross-sector perspective allows us to see the connections others miss — and to turn them into a plan that works.</p>
-                <p>We operate under UAE commercial regulations and maintain full compliance with applicable business and licensing requirements. That discipline is part of the advice: practical, accountable and grounded in the realities of doing business here.</p>
+                <p class="lead">What began as a focused Dubai trading operation has grown into a sourcing and supply partner serving clients and projects across the region.</p>
+                <p>Over the past decade and more, we have built a reputation for clear specifications, reliable suppliers and long-term relationships. Our cross-sector perspective allows us to see supply options others miss — and to turn them into a practical route from order to delivery.</p>
+                <p>We operate under UAE commercial regulations and work within our licensed scope. That discipline is part of the service: practical, accountable and grounded in the realities of sourcing and supply here.</p>
 
                 <div class="story-facts">
                     <div>
@@ -63,7 +63,7 @@ require includes_path('header.php');
                     </div>
                     <div>
                         <span>Focus</span>
-                        <strong>Strategy</strong>
+                        <strong>Global sourcing</strong>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@ require includes_path('header.php');
                     <img src="<?= e(asset('img/mark.png')) ?>" alt="" width="70" height="73" loading="lazy" decoding="async">
                     <span class="story-card__est">Est.<br><strong>2009</strong></span>
                 </div>
-                <blockquote>"Clarity is not a deliverable. It is where every good engagement begins."</blockquote>
+                <blockquote>"Reliability is not a promise we make. It is the way we work."</blockquote>
                 <div class="story-card__address">
                     <p class="eyebrow eyebrow--dark">Dubai office</p>
                     <address><?= e($company['address']) ?></address>
@@ -94,12 +94,12 @@ require includes_path('header.php');
         <div class="vm-grid">
             <article class="vm-card reveal">
                 <span class="vm-card__label">Vision</span>
-                <h3>To be a trusted strategy partner for ambitious businesses navigating complex markets.</h3>
+                <h3>To be the sourcing partner clients trust when the requirement matters — for the right product, the right supplier and the right delivery.</h3>
                 <span class="vm-card__icon" aria-hidden="true"><?= icon('diamond') ?></span>
             </article>
             <article class="vm-card vm-card--accent reveal">
                 <span class="vm-card__label">Mission</span>
-                <h3>To turn market complexity into clear, practical direction — and stay close enough to help our partners execute it.</h3>
+                <h3>To connect clients with reliable manufacturers and suppliers, coordinate procurement and deliver supply with clear accountability.</h3>
                 <span class="vm-card__icon" aria-hidden="true"><?= icon('spark') ?></span>
             </article>
         </div>
@@ -111,8 +111,8 @@ require includes_path('header.php');
         <div class="section-heading reveal">
             <p class="eyebrow eyebrow--dark"><span class="eyebrow__num">03</span> Core values</p>
             <div class="section-heading__row">
-                <h2 class="section-title">The principles<br><em>behind the practice.</em></h2>
-                <p class="section-intro">Five commitments guide how we advise, partner and deliver — with every client and every engagement.</p>
+                <h2 class="section-title">The principles<br><em>behind the work.</em></h2>
+                <p class="section-intro">Five commitments guide how we source, coordinate and deliver — with every client, supplier and project.</p>
             </div>
         </div>
 
@@ -133,8 +133,8 @@ require includes_path('header.php');
         <div class="section-heading section-heading--light reveal">
             <p class="eyebrow eyebrow--light"><span class="eyebrow__num">04</span> Capabilities</p>
             <div class="section-heading__row">
-                <h2 class="section-title">Built around<br><em>execution.</em></h2>
-                <p class="section-intro">Research, strategic framing and execution support — the foundations of our practice.</p>
+                <h2 class="section-title">Built around<br><em>delivery.</em></h2>
+                <p class="section-intro">Supplier access, specification discipline and delivery coordination — the foundations of our sourcing work.</p>
             </div>
         </div>
 
@@ -156,7 +156,7 @@ require includes_path('header.php');
     <div class="container">
         <div class="section-heading reveal">
             <p class="eyebrow eyebrow--dark"><span class="eyebrow__num">05</span> Target markets</p>
-            <h2 class="section-title">A growing<br><em>international perspective.</em></h2>
+            <h2 class="section-title">A growing<br><em>international network.</em></h2>
         </div>
 
         <div class="market-cards">

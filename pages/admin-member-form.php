@@ -3,19 +3,19 @@
 declare(strict_types=1);
 
 $user = current_user();
-$roles = ['member', 'super_admin'];
+$roles = ['partner', 'supplier', 'customer', 'super_admin'];
 
 if (is_post() && $action === 'store_member') {
     csrf_verify();
 
     $name = input_string('name');
     $email = mb_strtolower(input_string('email'));
-    $role = input_string('role', 'member');
+    $role = input_string('role', 'partner');
     $password = raw_input('password');
     $confirmation = raw_input('password_confirmation');
 
     if (!in_array($role, $roles, true)) {
-        $role = 'member';
+        $role = 'partner';
     }
 
     $errors = validate(
@@ -41,14 +41,14 @@ if (is_post() && $action === 'store_member') {
     if ($errors !== []) {
         flash_errors($errors);
         flash_input(['name' => $name, 'email' => $email, 'role' => $role]);
-        flash('error', 'Please review the new member details.');
+        flash('error', 'Please review the new account details.');
         redirect('/admin/members/create');
     }
 
     $id = user_create($name, $email, hash_password($password), $role, auth_id());
     audit_record(auth_id(), 'member.created', 'Created ' . $role . ' account #' . $id . ' (' . $email . ')');
 
-    flash('success', 'Member account created for ' . $email . '.');
+    flash('success', 'Account created for ' . $email . '.');
     redirect('/admin/members');
 }
 
@@ -59,7 +59,7 @@ if (is_post() && $action === 'update_member') {
     $member = user_find($id);
 
     if ($member === null) {
-        abort(404, 'That member could not be found.');
+        abort(404, 'That account could not be found.');
     }
 
     $name = input_string('name');
@@ -69,7 +69,7 @@ if (is_post() && $action === 'update_member') {
     $confirmation = raw_input('password_confirmation');
 
     if (!in_array($role, $roles, true)) {
-        $role = 'member';
+        $role = 'partner';
     }
 
     $rules = [
@@ -116,7 +116,7 @@ if (is_post() && $action === 'update_member') {
     if ($errors !== []) {
         flash_errors($errors);
         flash_input(['name' => $name, 'email' => $email, 'role' => $role]);
-        flash('error', 'The member details could not be saved.');
+        flash('error', 'The account details could not be saved.');
         redirect('/admin/members/' . $id . '/edit');
     }
 
@@ -132,7 +132,7 @@ if (is_post() && $action === 'update_member') {
         'Updated account #' . $id . ' (' . $email . ')' . ($password !== '' ? ' and reset password' : '')
     );
 
-    flash('success', 'Member details saved.');
+    flash('success', 'Account details saved.');
     redirect('/admin/members');
 }
 
@@ -142,27 +142,30 @@ if (isset($params['id'])) {
     $member = user_find((int) $params['id']);
 
     if ($member === null) {
-        abort(404, 'That member could not be found.');
+        abort(404, 'That account could not be found.');
     }
 }
 
 $isEdit = $member !== null;
 $actionUrl = $isEdit ? '/admin/members/' . (int) $member['id'] : '/admin/members';
-$roleValue = old('role', $member['role'] ?? 'member');
+$roleValue = old('role', $member['role'] ?? 'partner');
+if ($roleValue === 'member') {
+    $roleValue = 'partner';
+}
 
-$title = $isEdit ? 'Edit member' : 'Add member';
-$metaDescription = $isEdit ? 'Update member details and access.' : 'Create a member account.';
+$title = $isEdit ? 'Edit account' : 'Add account';
+$metaDescription = $isEdit ? 'Update account details and access.' : 'Create a partner, supplier or customer account.';
 $bodyClass = 'page-panel';
 
 require includes_path('panel-header.php');
 ?>
-<a class="back-link back-link--panel" href="/admin/members"><?= icon('arrow') ?> Back to members</a>
+<a class="back-link back-link--panel" href="/admin/members"><?= icon('arrow') ?> Back to accounts</a>
 
 <div class="panel-head">
     <div>
         <p class="eyebrow eyebrow--dark"><?= $isEdit ? 'Edit access' : 'New account' ?></p>
-        <h1 class="panel-title"><?= $isEdit ? 'Edit member.' : 'Add a member.' ?></h1>
-        <p class="panel-subtitle"><?= $isEdit ? 'Update account details, role or password.' : 'Create a private account for a partner or colleague.' ?></p>
+        <h1 class="panel-title"><?= $isEdit ? 'Edit account.' : 'Add an account.' ?></h1>
+        <p class="panel-subtitle"><?= $isEdit ? 'Update account details, role or password.' : 'Create a partner, supplier or customer account.' ?></p>
     </div>
 </div>
 
@@ -196,13 +199,15 @@ require includes_path('panel-header.php');
                 <label for="role">Access level</label>
                 <div class="select-wrap">
                     <select id="role" name="role" required>
-                        <option value="member"<?= selected($roleValue, 'member') ?>>Member — portal and resource library</option>
+                        <option value="partner"<?= selected($roleValue, 'partner') ?>>Partner — partner portal and shared resources</option>
+                        <option value="supplier"<?= selected($roleValue, 'supplier') ?>>Supplier — supplier information and compliance</option>
+                        <option value="customer"<?= selected($roleValue, 'customer') ?>>Customer — service sheets and account documents</option>
                         <option value="super_admin"<?= selected($roleValue, 'super_admin') ?>>Super admin — full administration</option>
                     </select>
                     <?= icon('chevron') ?>
                 </div>
                 <?php if (form_error('role') !== ''): ?><p class="field__error"><?= e(form_error('role')) ?></p><?php endif; ?>
-                <p class="field__help">Super-admins can add members, publish documents, review enquiries and see the activity log.</p>
+                <p class="field__help">All roles use the same sign-in. The role controls which resource categories are visible after sign-in.</p>
             </div>
 
             <div class="form-divider"></div>
@@ -218,7 +223,7 @@ require includes_path('panel-header.php');
             </div>
 
             <?php if ($isEdit): ?>
-                <p class="field__help field__help--top">Leave both password fields blank to keep the current password. Setting a new one signs the member out of other sessions.</p>
+                <p class="field__help field__help--top">Leave both password fields blank to keep the current password. Setting a new one signs the account out of other sessions.</p>
             <?php endif; ?>
 
             <div class="form__row">
@@ -254,7 +259,7 @@ require includes_path('panel-header.php');
             <div class="form__divider"></div>
 
             <div class="form__actions">
-                <button class="btn btn--dark" type="submit"><?= $isEdit ? 'Save member' : 'Create member' ?> <?= icon('check') ?></button>
+                <button class="btn btn--dark" type="submit"><?= $isEdit ? 'Save account' : 'Create account' ?> <?= icon('check') ?></button>
                 <a class="btn btn--ghost" href="/admin/members">Cancel</a>
             </div>
         </form>
@@ -280,7 +285,7 @@ require includes_path('panel-header.php');
                 </div>
 
                 <dl class="meta-list">
-                    <div><dt>Member since</dt><dd><?= e(format_date($member['created_at'] ?? null)) ?></dd></div>
+                    <div><dt>Account since</dt><dd><?= e(format_date($member['created_at'] ?? null)) ?></dd></div>
                     <div><dt>Last sign-in</dt><dd><?= e($member['last_login_at'] ? format_datetime($member['last_login_at']) : 'Never') ?></dd></div>
                 </dl>
 
@@ -299,7 +304,7 @@ require includes_path('panel-header.php');
                 <span class="panel-note__icon"><?= icon('mail') ?></span>
                 <div>
                     <h2>Share credentials securely</h2>
-                    <p>After creating the account, share the email address and password with the member through a secure channel. Ask them to change it after first sign-in.</p>
+                    <p>After creating the account, share the email address and password with the account holder through a secure channel. Ask them to change it after first sign-in.</p>
                 </div>
             </section>
 
@@ -307,7 +312,7 @@ require includes_path('panel-header.php');
                 <span class="panel-note__icon"><?= icon('lock') ?></span>
                 <div>
                     <h2>Least privilege</h2>
-                    <p>Choose <strong>Member</strong> unless the person genuinely needs administration access. Super-admin accounts should be kept to a minimum.</p>
+                    <p>Choose <strong>Partner</strong> for most external accounts. Suppliers and customers see role-specific resources. Reserve <strong>Super admin</strong> for administration access only.</p>
                 </div>
             </section>
         <?php endif; ?>

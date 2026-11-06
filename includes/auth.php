@@ -170,13 +170,13 @@ function auth_require_login(): void
     if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET') {
         $path = auth_relative_path();
 
-        if ($path !== '/members/login') {
+        if ($path !== '/login' && $path !== '/members/login') {
             $_SESSION['intended'] = $path;
         }
     }
 
-    flash('info', 'Please sign in to reach the members area.');
-    redirect('/members/login');
+    flash('info', 'Please sign in to reach the partner portal.');
+    redirect('/login');
 }
 
 function auth_require_admin(): void

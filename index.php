@@ -31,6 +31,19 @@ if (PHP_SAPI === 'cli-server') {
 
 require __DIR__ . '/includes/bootstrap.php';
 
+// The site moved from /sectors and /expertise to /services. Keep old links
+// working with a permanent redirect.
+$legacyPath = rtrim(request_path(), '/') ?: '/';
+
+if (
+    $legacyPath === '/sectors'
+    || str_starts_with($legacyPath, '/sectors/')
+    || $legacyPath === '/expertise'
+    || str_starts_with($legacyPath, '/expertise/')
+) {
+    redirect('/services', 301);
+}
+
 $routes = require __DIR__ . '/router.php';
 $match = wss_find_route(
     $routes,

@@ -24,5 +24,5 @@ audit_record(
     ((int) $resource['is_published'] ? 'Unpublished' : 'Published') . ' resource #' . $id
 );
 
-flash('success', (int) $resource['is_published'] ? 'Document moved to drafts.' : 'Document published to members.');
+flash('success', (int) $resource['is_published'] ? 'Document moved to drafts.' : 'Document published to the portal.');
 redirect('/admin/documents');

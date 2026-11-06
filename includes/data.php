@@ -135,8 +135,12 @@ function resource_find(int $id): ?array
     return db_fetch('SELECT * FROM resources WHERE id = ? LIMIT 1', [$id]);
 }
 
-function resource_published(?string $category = null, string $search = ''): array
+function resource_published(?string $category = null, string $search = '', ?array $categories = null): array
 {
+    if ($categories === []) {
+        return [];
+    }
+
     $sql = 'SELECT r.*, u.name AS author_name
             FROM resources r
             LEFT JOIN users u ON u.id = r.created_by
@@ -146,6 +150,12 @@ function resource_published(?string $category = null, string $search = ''): arra
     if ($category !== null && $category !== '') {
         $sql .= ' AND r.category = ?';
         $params[] = $category;
+    }
+
+    if ($categories !== null) {
+        $placeholders = implode(',', array_fill(0, count($categories), '?'));
+        $sql .= ' AND r.category IN (' . $placeholders . ')';
+        $params = array_merge($params, array_values($categories));
     }
 
     if ($search !== '') {
@@ -244,9 +254,22 @@ function resource_delete(int $id): void
     db_execute('DELETE FROM resources WHERE id = ?', [$id]);
 }
 
-function resource_count_published(): int
+function resource_count_published(?array $categories = null): int
 {
-    return (int) db_value('SELECT COUNT(*) FROM resources WHERE is_published = 1');
+    if ($categories === []) {
+        return 0;
+    }
+
+    if ($categories === null) {
+        return (int) db_value('SELECT COUNT(*) FROM resources WHERE is_published = 1');
+    }
+
+    $placeholders = implode(',', array_fill(0, count($categories), '?'));
+
+    return (int) db_value(
+        'SELECT COUNT(*) FROM resources WHERE is_published = 1 AND category IN (' . $placeholders . ')',
+        array_values($categories)
+    );
 }
 
 function resource_count_all(): int
@@ -254,26 +277,49 @@ function resource_count_all(): int
     return (int) db_value('SELECT COUNT(*) FROM resources');
 }
 
-function resource_latest_published(int $limit = 4): array
+function resource_latest_published(int $limit = 4, ?array $categories = null): array
 {
-    $limit = max(1, min(20, $limit));
+    if ($categories === []) {
+        return [];
+    }
 
-    return db_fetch_all(
-        'SELECT r.*, u.name AS author_name
+    $limit = max(1, min(20, $limit));
+    $sql = 'SELECT r.*, u.name AS author_name
          FROM resources r
          LEFT JOIN users u ON u.id = r.created_by
-         WHERE r.is_published = 1
-         ORDER BY r.created_at DESC LIMIT ' . $limit
-    );
+         WHERE r.is_published = 1';
+    $params = [];
+
+    if ($categories !== null) {
+        $placeholders = implode(',', array_fill(0, count($categories), '?'));
+        $sql .= ' AND r.category IN (' . $placeholders . ')';
+        $params = array_values($categories);
+    }
+
+    $sql .= ' ORDER BY r.created_at DESC LIMIT ' . $limit;
+
+    return db_fetch_all($sql, $params);
 }
 
-function resource_category_counts(): array
+function resource_category_counts(?array $categories = null): array
 {
-    $rows = db_fetch_all(
-        'SELECT category, COUNT(*) AS total
-         FROM resources WHERE is_published = 1
-         GROUP BY category ORDER BY category'
-    );
+    if ($categories === []) {
+        return [];
+    }
+
+    $sql = 'SELECT category, COUNT(*) AS total
+         FROM resources WHERE is_published = 1';
+    $params = [];
+
+    if ($categories !== null) {
+        $placeholders = implode(',', array_fill(0, count($categories), '?'));
+        $sql .= ' AND category IN (' . $placeholders . ')';
+        $params = array_values($categories);
+    }
+
+    $sql .= ' GROUP BY category ORDER BY category';
+
+    $rows = db_fetch_all($sql, $params);
 
     $counts = [];
 
