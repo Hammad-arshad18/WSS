@@ -4,9 +4,9 @@ A small, flat PHP application: one front controller, a route table, a handful of
 page files and a shared `includes/` folder. No framework, no build step, no
 Composer. Upload it to one.com and it runs.
 
-The layout and design system are unchanged. The WSS script is the logo in the
-header, footer and sign-in screens, with the gold starfish used as the brand
-seal. The public copy presents White Sea Star as a Dubai-based global sourcing
+The layout and design system are unchanged. The geometric WSS monogram is the
+logo in the header, footer and sign-in screens, with the gold starfish kept as
+the brand seal. The public copy presents White Sea Star as a Dubai-based global sourcing
 and supply partner, while the registered company name remains in the legal
 details.
 
@@ -20,7 +20,7 @@ site.webmanifest         Web app manifest
 assets/                  Public CSS, JS and images
   css/app.css            Design system (do not rename)
   js/app.js              Navigation, password toggles, uploads, reveals
-  img/                   WSS script, starfish seal, social image, favicon
+  img/                   WSS monogram, starfish seal, social image, favicon
 favicon.svg              Browser icon (embedded PNG tile)
 includes/                Shared code — blocked from the web
   bootstrap.php          Configuration, session, headers, error handling
